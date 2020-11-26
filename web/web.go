@@ -2,24 +2,24 @@ package web
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
-	"log"
 )
 
 type Server struct {
-    Hostname    string
-    Port        int
-    Usessl      bool
-    isRunning	bool 	/* is current serveload up and running */
+	Hostname  string
+	Port      int
+	Usessl    bool
+	isRunning bool /* is current serveload up and running */
 }
 
 func (srv *Server) PrintConfig() {
-    fmt.Printf("%+v\n", srv)
+	fmt.Printf("%+v\n", srv)
 }
 
 func (srv *Server) GetHost() string {
-    return srv.Hostname
+	return srv.Hostname
 }
 
 func (srv *Server) GetPort() int {
