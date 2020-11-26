@@ -1,61 +1,72 @@
 package web
 
 import (
-	"encoding/json"
-	"fmt"
-	_ "github.com/duraki/decipiat/web/api"
+	"github.com/duraki/decipiat/web/handlers"
 	"github.com/labstack/echo"
 	_ "github.com/labstack/echo/v4/middleware"
-	"log"
-	"net/http"
+	"html/template"
+	"io"
 )
+
+type Template struct {
+	templates *template.Template
+}
+
+func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	return t.templates.ExecuteTemplate(w, name, data)
+}
+
+/*
+func ParseTemplates() (*template.Template, error) {
+	templateBuilder := template.New("")
+	templateBuilder.ParseGlob("/public/views/*.html")
+	templateBuilder.ParseGlob("/public/views/partials/*.html")
+
+	return templateBuilder.ParseGlob("/*.html")
+}
+*/
 
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
 func Init() *echo.Echo {
+	t := &Template{
+		templates: template.Must(template.ParseGlob("public/views/*.html")),
+	}
+
 	e := echo.New()
+	e.Renderer = t
+
+	adminGroup := e.Group("/admin") /* create groups */
+
+	MainGroup(e)
+	AdminGroup(adminGroup)
+
 	return e
 }
 
-func GetHome(c echo.Context) error {
-	debug := c.QueryParam("debug")
-	return c.String(http.StatusOK, fmt.Sprintf("is debug: %s\n", debug))
+func MainGroup(e *echo.Echo) {
+	// Route / to handle defaults
+	//e.GET("/", handlers.Homepage)
+	e.GET("/", handlers.Homepage)
+
+	/*
+		e.GET("/", handler.Home)
+		e.GET("/health-check", handler.HealthCheck)
+
+		e.GET("/user/register", handler.RegisterUserView)
+		e.POST("/user/register", handler.RegisterUser)
+
+		e.GET("/user/login", handler.LoginUserView)
+		e.POST("/user/login", handler.LoginUserView)
+	*/
+
+	//e.GET("/project/create", handlers.ProjectCreateView)
+	//e.POST("/project/create", handlers.ProjectCreate)
 }
 
-func GetProject(c echo.Context) error {
-	name := c.QueryParam("name")
-	dataType := c.QueryParam("data")
-	projectType := c.QueryParam("type")
-
-	if dataType == "string" {
-		return c.String(http.StatusOK, fmt.Sprintf("Your project ID: %s\n", name))
-	} else if dataType == "json" {
-		return c.JSON(http.StatusOK, map[string]string{
-			"projectId": name,
-			"type":      projectType,
-		})
-	} else {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "please specify the data type as String or JSON",
-		})
-	}
+func UserGroup(g *echo.Group) {
+	g.GET("/project/create", handlers.ProjectCreate)
 }
 
-func AddProject(c echo.Context) error {
-	type Project struct {
-		Name string `json:"name"`
-		Type string `json:"type"`
-	}
-
-	project := Project{}
-	defer c.Request().Body.Close()
-
-	err := json.NewDecoder(c.Request().Body).Decode(&project)
-	if err != nil {
-		log.Fatalf("Failed reading the request body %s", err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
-	}
-
-	log.Printf("This is your project %#v", project)
-	return c.String(http.StatusOK, "We got your project !!!")
-
+func AdminGroup(g *echo.Group) {
+	g.GET("/main", handlers.MainAdmin)
 }

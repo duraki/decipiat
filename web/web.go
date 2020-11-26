@@ -2,7 +2,7 @@ package web
 
 import (
 	"fmt"
-	_ "github.com/duraki/decipiat/web/api"
+	_ "github.com/duraki/decipiat/web/handlers"
 )
 
 type Server struct {
@@ -39,7 +39,6 @@ func (srv *Server) GetIsRunning() bool {
 
 func (srv *Server) Run() {
 	router := Init()
-	router.GET("/project/:data", GetProject)
-	router.Logger.Fatal(router.Start(":8001")) // todo: fix to use srv*
+	router.Logger.Fatal(router.Start(":8000")) // todo: fix to use srv*
 	isRunning = true
 }
