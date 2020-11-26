@@ -21,16 +21,19 @@ var (
 	}
 )
 
-func usage() {
+func Usage() {
 	fmt.Printf("Usage: ./decipiat up [OPTIONS]\n\n")
 	fmt.Printf("\tOffensive Phishing-as-a-Service environment.\n")
-	fmt.Printf("\tDeveloped by:\tErhad Husovic -> (Github: XdaemonX)\n")
+	fmt.Printf("\tDeveloped by:\n")
+	fmt.Printf("\t\t\tErhad Husovic -> (Github: XdaemonX)\n")
 	fmt.Printf("\t\t\tHalis Duraki  -> (Github: duraki)\n\n")
 	flag.PrintDefaults()
+
+	fmt.Printf("\n\n")
 }
 
 func ParseConfiguration() *Config {
-	flag.Usage = usage
+	flag.Usage = Usage
 	flag.Parse()
 
 	return &options

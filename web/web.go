@@ -2,20 +2,23 @@ package web
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"strings"
+	_ "github.com/duraki/decipiat/web/api"
 )
 
 type Server struct {
-	Hostname  string
-	Port      int
-	Usessl    bool
-	isRunning bool /* is current serveload up and running */
+	Hostname string
+	Port     int
+	Usessl   bool
 }
+
+var isRunning bool = false /* is current serveload up and running */
 
 func (srv *Server) PrintConfig() {
 	fmt.Printf("%+v\n", srv)
+}
+
+func (srv *Server) Self() *Server {
+	return srv
 }
 
 func (srv *Server) GetHost() string {
@@ -31,12 +34,11 @@ func (srv *Server) GetUseSsl() bool {
 }
 
 func (srv *Server) GetIsRunning() bool {
-	return srv.isRunning
+	return isRunning
 }
 
-func (srv *Server) Serve() {
-	err := http.ListenAndServe(":9090", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+func (srv *Server) Run() {
+	router := Init()
+	router.Logger.Fatal(router.Start(":8000")) // todo: fix to use srv*
+	isRunning = true
 }
