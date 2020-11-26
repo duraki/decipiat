@@ -4,10 +4,12 @@ import (
 	"github.com/duraki/decipiat/web/handlers"
 	"github.com/labstack/echo"
 	_ "github.com/labstack/echo/v4/middleware"
-	"html/template"
-	"io"
+	_ "html/template"
+	_ "io"
+	"log"
 )
 
+/*
 type Template struct {
 	templates *template.Template
 }
@@ -15,25 +17,22 @@ type Template struct {
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.templates.ExecuteTemplate(w, name, data)
 }
-
-/*
-func ParseTemplates() (*template.Template, error) {
-	templateBuilder := template.New("")
-	templateBuilder.ParseGlob("/public/views/*.html")
-	templateBuilder.ParseGlob("/public/views/partials/*.html")
-
-	return templateBuilder.ParseGlob("/*.html")
-}
 */
 
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
 func Init() *echo.Echo {
-	t := &Template{
-		templates: template.Must(template.ParseGlob("public/views/*.html")),
+	tmpl, _ := NewTmpl("public/views/", "html", true)
+	err := tmpl.Load()
+	if err != nil {
+		log.Printf("err => %s", err.Error)
 	}
 
+	// t := &Template{
+	// 	templates: template.Must(template.ParseGlob("public/views/**/*")),
+	// }
+
 	e := echo.New()
-	e.Renderer = t
+	e.Renderer = tmpl
 
 	adminGroup := e.Group("/admin") /* create groups */
 
@@ -45,8 +44,8 @@ func Init() *echo.Echo {
 
 func MainGroup(e *echo.Echo) {
 	// Route / to handle defaults
-	//e.GET("/", handlers.Homepage)
 	e.GET("/", handlers.Homepage)
+	e.GET("/status", handlers.Status)
 
 	/*
 		e.GET("/", handler.Home)

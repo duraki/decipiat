@@ -8,5 +8,5 @@ import (
 
 func Homepage(c echo.Context) error {
 	log.Println("Homepage handler started ... exec øOK")
-	return c.Render(http.StatusOK, "homepage", nil)
+	return c.Render(http.StatusOK, "homepage", "test")
 }

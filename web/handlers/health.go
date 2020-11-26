@@ -1,10 +1,12 @@
 package handlers
 
 import (
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo"
+	"log"
 	"net/http"
 )
 
-func HealthCheck(c echo.Context) error {
-	return c.JSON(http.StatusOK, "All good.")
+func Status(c echo.Context) error {
+	log.Println("Status handler started ... exec øOK")
+	return c.JSON(http.StatusOK, "Status OK")
 }
