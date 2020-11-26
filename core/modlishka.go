@@ -1,7 +1,6 @@
 package core
 
 import (
-	"log"
 	"io/ioutil"
 	"encoding/json"
 	"os/exec"
