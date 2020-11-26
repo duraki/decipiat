@@ -3,7 +3,7 @@ package web
 import (
 	"github.com/duraki/decipiat/web/handlers"
 	"github.com/labstack/echo"
-	_ "github.com/labstack/echo/v4/middleware"
+	_ "github.com/labstack/echo/middleware"
 	_ "html/template"
 	_ "io"
 	"log"
@@ -21,17 +21,28 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
 func Init() *echo.Echo {
+	/**
+	 * Load templates.
+	 * @type {[type]}
+	 */
 	tmpl, _ := NewTmpl("public/views/", ".html", true)
 	err := tmpl.Load()
 	if err != nil {
 		log.Printf("err => %s", err.Error)
 	}
 
-	// t := &Template{
-	// 	templates: template.Must(template.ParseGlob("public/views/**/*")),
-	// }
-
+	/** @type {echo} new echo server */
 	e := echo.New()
+
+	/**
+	 * Setup static files.
+	 */
+	e.Static("/", "public/views")
+
+	/**
+	 * Setup templating engine.
+	 * @type {[type]}
+	 */
 	e.Renderer = tmpl
 
 	adminGroup := e.Group("/admin") /* create groups */
