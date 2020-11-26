@@ -30,6 +30,10 @@ strong {
   color: #333;
 }
 
+.header {
+	padding-top: 20px;
+}
+
 .header:hover {
 	color: #000;
 }
