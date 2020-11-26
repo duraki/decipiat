@@ -3,7 +3,7 @@ package web
 import (
 	"github.com/duraki/decipiat/web/handlers"
 	"github.com/labstack/echo"
-	_ "github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/middleware"
 	_ "html/template"
 	_ "io"
 	"log"
@@ -33,9 +33,13 @@ func Init() *echo.Echo {
 
 	/** @type {echo} new echo server */
 	e := echo.New()
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
 	/**
 	 * Setup static files.
+	 * Do not edit!
 	 */
 	e.Static("/", "public/views")
 
@@ -57,6 +61,9 @@ func MainGroup(e *echo.Echo) {
 	// Route / to handle defaults
 	e.GET("/", handlers.Homepage)
 	e.GET("/status", handlers.Status)
+
+	// Route for User Management
+	e.GET("/register", handlers.RegisterUserView)
 
 	/*
 		e.GET("/", handler.Home)

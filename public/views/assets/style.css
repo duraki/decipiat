@@ -34,6 +34,25 @@ strong {
 	color: #000;
 }
 
+.register {
+	padding-top: 20px;
+	line-height: 2;
+	background: #f2f1f1;
+	padding: 20px;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+
+form  { display: table;      }
+p     { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }
+
+.form-register-label {
+	padding-right: 15px;
+	font-family: 'Monaco', 'Courier';
+}
+
 header {
   background-color: #263d36;
   background-image: url("/assets/img/craft.png");
@@ -48,6 +67,16 @@ header {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.milka 
+{
+	background: #f2e7af;
+	font-size: 20px;
+	line-height: 14px;
+	letter-spacing: 0.09em;
+	font-weight: 500;
+	font-style: normal;
 }
 
 hr {

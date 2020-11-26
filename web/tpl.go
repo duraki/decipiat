@@ -1,5 +1,9 @@
 package web
 
+/*
+ credits due https://gist.github.com/logrusorgru/abd846adb521a6fb39c7405f32fec0cf
+*/
+
 import (
 	"errors"
 	"github.com/labstack/echo"
