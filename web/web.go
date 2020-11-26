@@ -39,6 +39,7 @@ func (srv *Server) GetIsRunning() bool {
 
 func (srv *Server) Run() {
 	router := Init()
-	router.Logger.Fatal(router.Start(":8000")) // todo: fix to use srv*
+	router.GET("/project/:data", GetProject)
+	router.Logger.Fatal(router.Start(":8001")) // todo: fix to use srv*
 	isRunning = true
 }
