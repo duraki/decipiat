@@ -21,7 +21,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
 func Init() *echo.Echo {
-	tmpl, _ := NewTmpl("public/views/", "html", true)
+	tmpl, _ := NewTmpl("public/views/", ".html", true)
 	err := tmpl.Load()
 	if err != nil {
 		log.Printf("err => %s", err.Error)

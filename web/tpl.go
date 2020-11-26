@@ -258,5 +258,9 @@ func (t *Tmpl) Render(w io.Writer, name string, data interface{}, c echo.Context
 	}
 
 	err = t.ExecuteTemplate(w, name, data)
+	if err != nil {
+		log.Println("ctx error")
+		log.Println(err)
+	}
 	return
 }
