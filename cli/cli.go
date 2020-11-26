@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// Config struct handles options that will be passed to the web server
 type Config struct {
 	Host    *string
 	Port    *int
@@ -21,6 +22,7 @@ var (
 	}
 )
 
+// Usage prints details about decipiat; should be unexported really
 func Usage() {
 	fmt.Printf("Usage: ./decipiat up [OPTIONS]\n\n")
 	fmt.Printf("\tOffensive Phishing-as-a-Service environment.\n")
@@ -32,6 +34,7 @@ func Usage() {
 	fmt.Printf("\n\n")
 }
 
+// ParseConfiguration is the main function that will be called to parse flags
 func ParseConfiguration() *Config {
 	flag.Usage = Usage
 	flag.Parse()
