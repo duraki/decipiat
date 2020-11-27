@@ -1,0 +1,3 @@
+{{define "loggedin"}}
+	<code style="padding: 0px;">Welcome back.<br>Logged-in as <strong>{{ range $key, $value := .}} {{ $value.Email }} {{ end }}</strong>.</pre></code>
+{{end}}
