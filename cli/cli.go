@@ -3,6 +3,8 @@ package cli
 import (
 	"flag"
 	"fmt"
+	
+	log "github.com/sirupsen/logrus"
 )
 
 // Config struct handles options that will be passed to the web server
@@ -40,4 +42,11 @@ func ParseConfiguration() *Config {
 	flag.Parse()
 
 	return &options
+}
+
+func InitializeLogging() {
+	formatter := new(log.TextFormatter)
+	formatter.TimestampFormat = "02.01.2006 15:05:04"
+	formatter.FullTimestamp = true
+	log.SetFormatter(formatter)
 }
