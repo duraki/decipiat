@@ -37,6 +37,7 @@ func IsUserAuthenticated(c echo.Context) bool {
 	}
 
 	if User != nil {
+		log.Infof("%s\n", "user is authenticated, trying to access pass the project page")
 		return true
 	}
 

@@ -3,20 +3,19 @@ package handlers
 import (
 	_ "encoding/json"
 	"fmt"
-	_ "github.com/duraki/decipiat/models"
+	"github.com/duraki/decipiat/models"
 	"github.com/duraki/decipiat/web/session"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
+	"gopkg.in/mgo.v2/bson"
 	"net/http"
 )
 
 func ProjectCreateView(c echo.Context) error {
 	if !session.IsUserAuthenticated(c) {
-		log.Infof("%s\n", "user is not authenticated, trying to access pass the project page")
 		return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
 			"msg": fmt.Sprintf("Please login again to continue."),
 		})
-		//return c.Render(http.StatusOK, "userhome", session.GetSessionFromRequest(c).User)
 	}
 	log.Infof("%s\n", "project create view handler started ...")
 
@@ -25,6 +24,39 @@ func ProjectCreateView(c echo.Context) error {
 
 	return c.Render(http.StatusOK, "project_create", map[string]interface{}{
 		"user": user,
+	})
+}
+
+func ProjectCreate(c echo.Context) (err error) {
+	if !session.IsUserAuthenticated(c) {
+		return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
+			"msg": fmt.Sprintf("Please login again to continue."),
+		})
+	}
+
+	name := c.FormValue("project_name")
+	int := c.FormValue("identifier")
+
+	// Bind
+	prj := &models.Project{ID: bson.NewObjectId(), Name: name, InternalId: int}
+
+	// Validate
+	if prj.Name == "" {
+		// taken from here: https://gitlab.com/ykyuen/golang-echo-template-example/-/tree/master
+		return c.Render(http.StatusBadRequest, "message", map[string]interface{}{
+			"msg": "Empty Project Name. This field is required.",
+		})
+	}
+
+	// Save project
+	db := GlobalConfig.DB.Clone()
+	defer db.Close()
+	if err = db.DB(DatabaseName).C(models.CollectionProject).Insert(prj); err != nil {
+		return
+	}
+
+	return c.Render(http.StatusCreated, "message", map[string]interface{}{
+		"msg": fmt.Sprintf("Project [%s] created (INTID: %s) #", prj.Name, prj.InternalId),
 	})
 }
 

@@ -79,7 +79,6 @@ func Init() *echo.Echo {
 	adminGroup := e.Group("/admin") /* create groups */
 
 	MainGroup(e)
-	UserGroup(e)
 	AdminGroup(adminGroup)
 
 	return e
@@ -98,6 +97,10 @@ func MainGroup(e *echo.Echo) {
 	e.GET("/logout", handlers.LogoutUser)
 	e.GET("/me", handlers.UserDashboardView)
 
+	// Route for Project Management
+	e.GET("/project/new", handlers.ProjectCreateView)
+	e.POST("/project/new", handlers.ProjectCreate)
+
 	/*
 		e.GET("/", handler.Home)
 		e.GET("/health-check", handler.HealthCheck)
@@ -111,11 +114,6 @@ func MainGroup(e *echo.Echo) {
 
 	//e.GET("/project/create", handlers.ProjectCreateView)
 	//e.POST("/project/create", handlers.ProjectCreate)
-}
-
-func UserGroup(g *echo.Echo) {
-	g.GET("/project/new", handlers.ProjectCreateView)
-	//g.GET("/project/create", handlers.ProjectCreate)
 }
 
 func AdminGroup(g *echo.Group) {
