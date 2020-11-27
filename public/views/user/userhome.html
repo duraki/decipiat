@@ -4,7 +4,10 @@
 		<body>
 			<h1>decipiat [ lat. <i>dēcipiat</i> ]</h1>
 			{{template "menu"}}
-			<code style="padding: 0px;"><pre>Welcome back.<br>Logged-in as <strong>{{ index . "user" }}</strong>.</pre></code>
+			<code style="padding: 0px;"><pre>Welcome back.<br>Logged-in as <strong>{{ range $key, $value := .}} {{ $value.Email }} {{ end }}</strong>.</pre></code>
+				<h1>{{ range $key, $value := . }}
+   <li><strong>{{ $key }}</strong>: {{ $value.Email }}</li>
+   {{ end }}</h1>
 
 			<h2>Useful links</h2>
 			<ul>
