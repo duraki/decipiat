@@ -1,5 +1,6 @@
 package models
 
+// ModlishkaConfig struct will handle parameters for modlishka json config file
 type ModlishkaConfig struct {
 	ProxyDomain          *string `json:"proxyDomain"`
 	ListeningAddress     *string `json:"listeningAddress"`
@@ -8,7 +9,7 @@ type ModlishkaConfig struct {
 	TargetResources      *string `json:"targetResources"`
 	Rules                *string `json:"rules"`
 	TerminateTriggers    *string `json:"terminateTriggers"`
-	TerminateRedirectUrl *string `json:"terminateRedirectUrl"`
+	TerminateRedirectURL *string `json:"terminateRedirectUrl"`
 	TrackingCookie       *string `json:"trackingCookie"`
 	TrackingParam        *string `json:"trackingParam"`
 	JsRules              *string `json:"jsRules"`

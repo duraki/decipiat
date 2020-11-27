@@ -19,7 +19,7 @@ func generate() string {
 	return string(b)
 }
 
-func CreateDir(projectName string) string {
+func createDir(projectName string) string {
 	dir := projectName + generate()
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.Mkdir(dir, 0644)
@@ -27,7 +27,8 @@ func CreateDir(projectName string) string {
 	return dir
 }
 
+// InitializeProject function handles project initialization. Later on we will add connection to the database and such
 func InitializeProject(project models.Project) {
 	// Create Directory for it for now, later will probably be some database
-	CreateDir(project.ProjectName)
+	createDir(project.ProjectName)
 }
