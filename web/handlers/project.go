@@ -15,17 +15,20 @@ func ProjectCreateView(c echo.Context) error {
 */
 
 func ProjectCreate(c echo.Context) error {
-	project := models.Project{}
-	defer c.Request().Body.Close()
-
-	err := json.NewDecoder(c.Request().Body).Decode(&project)
-	if err != nil {
-		log.Fatalf("Failed reading the request body %s", err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
-	}
-
-	log.Printf("new project created .. in %#v", project)
 	return c.String(http.StatusOK, "Project created")
+	/*
+		project := models.Project{}
+		defer c.Request().Body.Close()
+
+		err := json.NewDecoder(c.Request().Body).Decode(&project)
+		if err != nil {
+			log.Fatalf("Failed reading the request body %s", err)
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
+		}
+
+		log.Printf("new project created .. in %#v", project)
+		return c.String(http.StatusOK, "Project created")
+	*/
 }
 
 /*

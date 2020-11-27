@@ -64,6 +64,7 @@ func MainGroup(e *echo.Echo) {
 
 	// Route for User Management
 	e.GET("/register", handlers.RegisterUserView)
+	e.GET("/login", handlers.LoginUserView)
 
 	/*
 		e.GET("/", handler.Home)
