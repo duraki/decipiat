@@ -17,8 +17,12 @@ type (
 		Type      string        `json:"type" bson:"usertype"`       // type => admin, org, user
 		CreatedAt time.Time     `json:"createdAt" bson:"createdAt"` // ...
 		UpdatedAt time.Time     `json:"updatedAt" bson:"updatedAt"` // ...
-		Status    int           `json:"status" bson:"s"`            // 1 = active, 0 = deleted, 66 = banned
+		Status    int           `json:"status" bson:"s"`            // 0 = inactive, 1 = active, -1 = deleted, 66 = banned
 	}
+)
+
+const (
+	CollectionUser = "usersCollection"
 )
 
 func HashPassword(password string) (string, error) {

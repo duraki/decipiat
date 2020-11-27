@@ -243,6 +243,11 @@ func (t *Tmpl) IsModified() (yep bool, err error) {
 func (t *Tmpl) Render(w io.Writer, name string, data interface{}, c echo.Context) (err error) {
 	log.Println("Ctx custom vrender initialized ...")
 
+	// Add global methods if data is a map
+	// if viewContext, isMap := data.(map[string]interface{}); isMap {
+	// 	viewContext["reverse"] = c.Echo().Reverse
+	// }
+
 	// if devlopment
 	if t.devel == true {
 

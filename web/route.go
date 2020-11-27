@@ -87,8 +87,9 @@ func MainGroup(e *echo.Echo) {
 
 	// Route for User Management
 	e.GET("/register", handlers.RegisterUserView)
-	e.GET("/login", handlers.LoginUserView)
 	e.POST("/register", handlers.RegisterUser)
+	e.GET("/login", handlers.LoginUserView)
+	e.POST("/login", handlers.LoginUser)
 
 	/*
 		e.GET("/", handler.Home)

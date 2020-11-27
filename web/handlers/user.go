@@ -1,10 +1,11 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/duraki/decipiat/models"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
-
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 )
@@ -28,21 +29,24 @@ func RegisterUser(c echo.Context) error {
 func RegisterUser(c echo.Context) (err error) {
 	// Read the fields
 	email := c.FormValue("email")
-	//password := []byte(c.FormValue("password"))
-
 	/* hash passwords */
 	hash, _ := models.HashPassword(c.FormValue("password"))
-	log.Infof("passh hash %s", hash)
 
 	// Bind
 	u := &models.User{ID: bson.NewObjectId(), Email: email, Password: hash}
-	if err = c.Bind(u); err != nil {
-		return
-	}
+
+	// Default binding via POST req body.
+	// if err = c.Bind(u); err != nil {
+	// 	return
+	// }
 
 	// Validate
 	if u.Email == "" || u.Password == "" {
-		return &echo.HTTPError{Code: http.StatusBadRequest, Message: "invalid email or password"}
+		// taken from here: https://gitlab.com/ykyuen/golang-echo-template-example/-/tree/master
+		return c.Render(http.StatusBadRequest, "message", map[string]interface{}{
+			"msg": "Empty Email or Password",
+		})
+		// return &echo.HTTPError{Code: http.StatusBadRequest, Message: "invalid email or password"}
 	}
 
 	// Save user
@@ -52,5 +56,31 @@ func RegisterUser(c echo.Context) (err error) {
 		return
 	}
 
-	return c.JSON(http.StatusCreated, u)
+	return c.Render(http.StatusCreated, "message", map[string]interface{}{
+		"msg": fmt.Sprintf("User registered with email: %s", email),
+	})
+
+	//return c.JSON(http.StatusCreated, u)
+}
+
+func LoginUser(c echo.Context) (err error) {
+	// Read the fields
+	email := c.FormValue("email")
+	password := c.FormValue("password")
+
+	// Bind
+	user := new(models.User)
+
+	// Find user
+	db := GlobalConfig.DB.Clone()
+	defer db.Close()
+	if err = db.DB(DatabaseName).C(models.CollectionUser).
+		Find(bson.M{"email": email, "password": password}).One(user); err != nil {
+		if err == mgo.ErrNotFound {
+			return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
+		}
+		return
+	}
+
+	return c.JSON(http.StatusOK, "Logged in")
 }

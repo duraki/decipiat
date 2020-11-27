@@ -54,6 +54,7 @@ Options:
 Instructions for MacOS Catalina environment:
 
 ```
+### MongoDB => https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 $ brew tap mongodb/brew
 $ brew install mongodb-community@4.4
 
@@ -80,6 +81,8 @@ local     0.000GB
 switched to db decipiat
 > show collections
 users
+> db.users.find()
+  ...
 ```
 
 ---

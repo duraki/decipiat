@@ -210,6 +210,12 @@ button.middel{
   font-weight: normal;
 }
 
+.alert {
+background: black;
+color: white;
+padding: 10px;
+}
+
 /** c o l o r -- tablelist */
 /**
  * Primary color: #e81c4f

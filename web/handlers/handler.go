@@ -9,6 +9,7 @@ import (
  */
 
 var GlobalConfig = Globals{}
+var DatabaseName string = "decipiat"
 
 type (
 	Globals struct {
