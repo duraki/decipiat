@@ -4,9 +4,10 @@ import (
 	"github.com/duraki/decipiat/web/handlers"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	log "github.com/sirupsen/logrus"
+	"gopkg.in/mgo.v2"
 	_ "html/template"
 	_ "io"
-	"log"
 )
 
 /*
@@ -19,8 +20,27 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 */
 
+func SetGlobals() {
+	db, err := mgo.Dial("localhost")
+	if err != nil {
+		log.Fatalf("%s\n", "decipiat starting a db conn to ... localhost")
+	}
+
+	// Create indices
+	if err = db.Copy().DB("decipiat").C("users").EnsureIndex(mgo.Index{
+		Key:    []string{"email"},
+		Unique: true,
+	}); err != nil {
+		log.Fatalf("%s\n", "unable to create db indices ...")
+	}
+
+	// Initialize a global handler
+	handlers.GlobalConfig = handlers.Globals{DB: db}
+}
+
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
 func Init() *echo.Echo {
+
 	/**
 	 * Load templates.
 	 * @type {[type]}
@@ -36,6 +56,9 @@ func Init() *echo.Echo {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	SetGlobals()
+	log.Infof("global handlers %+v\n", handlers.GlobalConfig)
 
 	/**
 	 * Setup static files.
@@ -65,6 +88,7 @@ func MainGroup(e *echo.Echo) {
 	// Route for User Management
 	e.GET("/register", handlers.RegisterUserView)
 	e.GET("/login", handlers.LoginUserView)
+	e.POST("/register", handlers.RegisterUser)
 
 	/*
 		e.GET("/", handler.Home)

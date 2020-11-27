@@ -30,10 +30,6 @@ Options:
 
 2. Download the `decipiat` binary from Releases tab.
 
-
-**Configuration Options**
----
-
 1. Add more info 
 
     + Turn on Firewall?
@@ -43,6 +39,9 @@ Options:
     + Turn on stealth mode?
         - Your Mac will not respond to ICMP ping requests or connection attempts from closed TCP and UDP networks.
 
+**Configuration Options**
+---
+
 **How to Contribute**
 ---
 
@@ -51,6 +50,40 @@ Options:
 3. Submit Pull Request with comprehensive description of changes
 
 **Project Structure**
+
+**Development Environment**
+
+Instructions for MacOS Catalina environment:
+
+```
+$ brew tap mongodb/brew
+$ brew install mongodb-community@4.4
+
+$ mkdir -p /data/db
+$ sudo chown -R `id -un` /data/db
+
+-- Service env (startup):
+$ brew services start mongodb-community@4.4
+$ brew services stop mongodb-community@4.4
+
+-- Config env (once):
+$ mongod --config /usr/local/etc/mongod.conf
+
+$ mongo       # to connect via cli
+$ mongotop    # db tools/utils
+
+-- tldr: mongo
+> show dbs
+admin     0.000GB
+config    0.000GB
+decipiat  0.000GB
+local     0.000GB
+> use decipiat
+switched to db decipiat
+> show collections
+users
+```
+
 ---
 
 ```
