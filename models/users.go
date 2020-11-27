@@ -24,6 +24,7 @@ type (
 func HashPassword(password string) (string, error) {
 	log.Infof("Hashing password total bytes len %s", len(password))
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
+	log.Infof("Hashed succ: %s", string(bytes))
 	return string(bytes), err
 }
 

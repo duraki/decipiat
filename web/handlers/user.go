@@ -32,6 +32,7 @@ func RegisterUser(c echo.Context) (err error) {
 
 	/* hash passwords */
 	hash, _ := models.HashPassword(c.FormValue("password"))
+	log.Infof("passh hash %s", hash)
 
 	// Bind
 	u := &models.User{ID: bson.NewObjectId(), Email: email, Password: hash}

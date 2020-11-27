@@ -49,8 +49,6 @@ Options:
 2. Make changes and test
 3. Submit Pull Request with comprehensive description of changes
 
-**Project Structure**
-
 **Development Environment**
 
 Instructions for MacOS Catalina environment:
@@ -85,6 +83,8 @@ users
 ```
 
 ---
+
+**Project Structure**
 
 ```
 galaxy@devil. decipiat master × tree
