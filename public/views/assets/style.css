@@ -216,9 +216,29 @@ button.middel{
 }
 
 .alert {
-background: black;
-color: white;
-padding: 10px;
+	background: black;
+	color: white;
+	padding: 10px;
+}
+
+.leftier {
+	float: left;
+	padding-right: 30px;
+}
+
+.rightier {
+	margin-left: 50%;
+	padding-top: 20px;
+/*margin-right: 10px;*/
+}
+
+.smaller-details-title {
+	color: #000;
+}
+
+.smaller-details {
+	font-size: 12px;
+	color: #666;
 }
 
 /** c o l o r -- tablelist */
