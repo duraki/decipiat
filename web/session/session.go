@@ -29,6 +29,8 @@ func GetUser() *models.User {
 }
 
 func IsUserAuthenticated(c echo.Context) bool {
+	return User != nil
+
 	session, _ := Store.Get(c.Request(), SessionTokenName)
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		log.Infof("%s\n", "user is not authenticated, trying to access pass the login page")

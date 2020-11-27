@@ -23,7 +23,7 @@ func UserDashboardView(c echo.Context) error {
 		//return c.Render(http.StatusOK, "userhome", session.GetSessionFromRequest(c).User)
 	}
 
-	return c.Redirect(http.StatusTemporaryRedirect, "/login")
+	return c.Redirect(http.StatusTemporaryRedirect, "/logout")
 }
 
 func RegisterUserView(c echo.Context) error {
