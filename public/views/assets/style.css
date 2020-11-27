@@ -141,6 +141,49 @@ a {
   color: #e81c4f;
 }
 
+/* custom form btn */
+.reg-btn {
+	font-size: 17px;
+	line-height: 1.8;
+	letter-spacing: 0.029em;
+	font-style: normal;
+	font-variation-settings: "opsz" 19.8999938964844;
+	font-weight: 409;
+}
+
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+	cursor: pointer;
+	-webkit-appearance: button;
+}
+button, input {
+	line-height: normal;
+}
+button, input, select, textarea {
+	margin: 0;
+	font-size: 100%;
+	vertical-align: middle;
+}
+
+button.middel{
+	background: green;
+	height: 100%;
+	display: block;
+	border-radius: 3px;
+	border: green solid thin;
+	opacity: 0.5;
+	color: white;
+	font-size: 15px;
+	line-height: 1.4;
+	letter-spacing: 0.026em;
+	font-style: italic;
+	font-variation-settings: "opsz" 19.8999938964844;
+	font-weight: 491;
+}
+
+.checkbox {
+  font-weight: normal;
+}
+
 /** c o l o r -- tablelist */
 /**
  * Primary color: #e81c4f
