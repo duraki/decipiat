@@ -30,5 +30,5 @@ func createDir(projectName string) string {
 // InitializeProject function handles project initialization. Later on we will add connection to the database and such
 func InitializeProject(project models.Project) {
 	// Create Directory for it for now, later will probably be some database
-	createDir(project.ProjectName)
+	createDir(project.Name)
 }
