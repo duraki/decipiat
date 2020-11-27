@@ -1,0 +1,32 @@
+{{define "domain"}}
+	<html>
+		{{template "header"}}
+		<body>
+			<h1>decipiat</h1>
+			{{template "menu"}}
+			<div class="header">
+			<br>
+			<p>Search available domains</p>
+			</div>
+
+			<hr>
+
+			<h2>Domains</h2>
+
+			<p>Type in your domain to search for similar ones</p>
+
+			<form class="register" action="/domain" method="POST">
+				<p>
+				<label for="domain" class="form-register-label" autocomplete="off">Domain:</label>
+				<input name="domain" type="text"/>
+				</p>
+				<p>
+				<button class="btn btn-lg btn-primary btn-block middel loady" type="submit">Search</button>
+				</p>
+			</form>
+
+			<hr>
+		</body>
+		{{template "footer"}}
+	</html>
+{{end}}

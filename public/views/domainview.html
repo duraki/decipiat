@@ -1,0 +1,30 @@
+{{define "domainview"}}
+	<html>
+		{{template "header"}}
+		<body>
+			<h1>decipiat</h1>
+			{{template "menu"}}
+			<div class="header">
+				<br>
+				<p>Results of searching for domains</p>
+			</div>
+
+			<hr>
+
+			<h2>Results</h2>
+
+			{{ index . "domains" }}
+
+			<hr>
+
+			<!--<table>
+				<tr><th>Domain Names</th></tr>
+				{{ range (index . "domains")}}
+				<tr><td>{{ . }}</td</tr>
+				{{ end }}
+				</table>--!>
+
+			{{template "footer"}}
+		</body>
+	</html>
+{{ end }}
