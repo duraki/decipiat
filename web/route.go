@@ -98,6 +98,10 @@ func MainGroup(e *echo.Echo) {
 	e.GET("/logout", handlers.LogoutUser)
 	e.GET("/me", handlers.UserDashboardView)
 
+	// Route for domain generation
+	e.GET("/domain", handlers.DomainView)
+	e.POST("/domain", handlers.SearchDomain)
+
 	/*
 		e.GET("/", handler.Home)
 		e.GET("/health-check", handler.HealthCheck)
