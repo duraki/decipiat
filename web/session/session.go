@@ -1,73 +1,34 @@
 package session
 
 import (
-	"fmt"
-
-	"github.com/gorilla/context"
+	_ "fmt"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
-)
-
-type (
-	// Config defines the config for Session middleware.
-	Config struct {
-		// Skipper defines a function to skip middleware.
-		Skipper middleware.Skipper
-
-		// Session store.
-		// Required.
-		Store sessions.Store
-	}
-)
-
-const (
-	key = "_session_store"
+	log "github.com/sirupsen/logrus"
+	_ "net/http"
 )
 
 var (
-	// DefaultConfig is the default Session middleware config.
-	DefaultConfig = Config{
-		Skipper: middleware.DefaultSkipper,
-	}
+	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	key   = []byte("killd-mystic-k3y")
+	Store = sessions.NewCookieStore(key)
 )
 
-// Get returns a named session.
-func Get(name string, c echo.Context) (*sessions.Session, error) {
-	s := c.Get(key)
-	if s == nil {
-		return nil, fmt.Errorf("%q session not found", name)
-	}
-	store := s.(sessions.Store)
-	return store.Get(c.Request(), name)
-}
+const (
+	SessionTokenName = "auth_token"
+)
 
-// Middleware returns a Session middleware.
-func Middleware(store sessions.Store) echo.MiddlewareFunc {
-	c := DefaultConfig
-	c.Store = store
-	return MiddlewareWithConfig(c)
-}
-
-// MiddlewareWithConfig returns a Sessions middleware with config.
-// See `Middleware()`.
-func MiddlewareWithConfig(config Config) echo.MiddlewareFunc {
-	// Defaults
-	if config.Skipper == nil {
-		config.Skipper = DefaultConfig.Skipper
-	}
-	if config.Store == nil {
-		panic("echo: session middleware requires store")
+func IsUserAuthenticated(c echo.Context) bool {
+	session, _ := Store.Get(c.Request(), SessionTokenName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		log.Infof("%s\n", "user is not authenticated, trying to access pass the login page")
+		return false
+		/**
+		return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
+			"msg": fmt.Sprintf("Please login again to continue."),
+		})
+		**/
 	}
 
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			if config.Skipper(c) {
-				return next(c)
-			}
-			defer context.Clear(c.Request())
-			c.Set(key, config.Store)
-			return next(c)
-		}
-	}
+	return true
 }

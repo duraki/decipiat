@@ -1,19 +1,33 @@
 package handlers
 
 import (
-	"encoding/json"
-	"github.com/duraki/decipiat/models"
+	_ "encoding/json"
+	"fmt"
+	_ "github.com/duraki/decipiat/models"
+	"github.com/duraki/decipiat/web/session"
 	"github.com/labstack/echo"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
-/*
 func ProjectCreateView(c echo.Context) error {
+	session, _ := session.Store.Get(c.Request(), session.SessionTokenName)
+	log.Infof("%s\n", "project create view handler started ...")
 
+	// Check if authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		log.Infof("%s\n", "user is not authenticated, trying to access pass the project page")
+		return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
+			"msg": fmt.Sprintf("Please login again to continue."),
+		})
+	}
+
+	return c.Render(http.StatusOK, "project_create", map[string]interface{}{
+		"email": "test",
+	})
 }
-*/
 
+/**
 func ProjectCreate(c echo.Context) error {
 	//return c.String(http.StatusOK, "Project created")
 	project := models.Project{}
@@ -28,6 +42,7 @@ func ProjectCreate(c echo.Context) error {
 	log.Printf("new project created .. in %#v", project)
 	return c.String(http.StatusOK, "Project created")
 }
+**/
 
 /*
 

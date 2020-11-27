@@ -18,6 +18,16 @@ func RegisterUserView(c echo.Context) error {
 
 func LoginUserView(c echo.Context) error {
 	log.Infof("%s\n", "login user view handler started ...")
+
+	if session.IsUserAuthenticated(c) {
+		return c.Redirect(http.StatusTemporaryRedirect, "/project/new")
+		/**
+		return c.Render(http.StatusOK, "message", map[string]interface{}{
+			"msg": fmt.Sprintf("Please login again to continue."),
+		})
+		**/
+	}
+
 	return c.Render(http.StatusOK, "login", nil)
 }
 
@@ -64,6 +74,17 @@ func RegisterUser(c echo.Context) (err error) {
 	//return c.JSON(http.StatusCreated, u)
 }
 
+func LogoutUser(c echo.Context) (err error) {
+	// Kill sessions
+	session, _ := session.Store.Get(c.Request(), session.SessionTokenName)
+	session.Values["authenticated"] = false
+	session.Save(c.Request(), c.Response())
+
+	return c.Render(http.StatusOK, "message", map[string]interface{}{
+		"msg": fmt.Sprintf("Thank you for operating on decipiat. Come again for new logins."),
+	})
+}
+
 func LoginUser(c echo.Context) (err error) {
 	// Read the fields
 	email := c.FormValue("email")
@@ -90,13 +111,11 @@ func LoginUser(c echo.Context) (err error) {
 		return
 	}
 
+	session, _ := session.Store.Get(c.Request(), session.SessionTokenName)
 	if models.HashCompare(c.FormValue("password"), user.Password) {
-		sess, _ := session.Get("session", c)
-		sess.Options = web.Sessions.Options{
-			Path:     "/",
-			MaxAge:   86400 * 7,
-			HttpOnly: true,
-		}
+		session.Values["authenticated"] = true
+		session.Values["email"] = email
+		session.Save(c.Request(), c.Response())
 
 		return c.Render(http.StatusOK, "userhome", map[string]interface{}{
 			"email": user.Email,
@@ -108,7 +127,7 @@ func LoginUser(c echo.Context) (err error) {
 		*/
 	}
 
-	return c.Render(http.StatusOK, "message", map[string]interface{}{
+	return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
 		"msg": fmt.Sprintf("Incorrect authentication details."),
 	})
 }

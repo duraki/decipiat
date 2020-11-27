@@ -3,8 +3,8 @@ package web
 import (
 	"github.com/duraki/decipiat/web/handlers"
 
-	"github.com/duraki/decipiat/web/session"
-	"github.com/gorilla/sessions"
+	// "github.com/duraki/decipiat/web/session"
+	// "github.com/gorilla/sessions"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	log "github.com/sirupsen/logrus"
@@ -59,7 +59,7 @@ func Init() *echo.Echo {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	e.Use(session.Middleware(Sessions.NewCookieStore([]byte("secret"))))
+	//e.Use(session.Middleware(Sessions.NewCookieStore([]byte("secret"))))
 
 	SetGlobals()
 	log.Infof("global handlers %+v\n", handlers.GlobalConfig)
@@ -79,6 +79,7 @@ func Init() *echo.Echo {
 	adminGroup := e.Group("/admin") /* create groups */
 
 	MainGroup(e)
+	UserGroup(e)
 	AdminGroup(adminGroup)
 
 	return e
@@ -94,6 +95,7 @@ func MainGroup(e *echo.Echo) {
 	e.POST("/register", handlers.RegisterUser)
 	e.GET("/login", handlers.LoginUserView)
 	e.POST("/login", handlers.LoginUser)
+	e.GET("/logout", handlers.LogoutUser)
 
 	/*
 		e.GET("/", handler.Home)
@@ -110,8 +112,8 @@ func MainGroup(e *echo.Echo) {
 	//e.POST("/project/create", handlers.ProjectCreate)
 }
 
-func UserGroup(g *echo.Group) {
-	g.GET("/project/create", handlers.ProjectCreate)
+func UserGroup(g *echo.Echo) {
+	g.GET("/project/new", handlers.ProjectCreateView)
 	//g.GET("/project/create", handlers.ProjectCreate)
 }
 
