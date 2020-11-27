@@ -2,6 +2,9 @@ package web
 
 import (
 	"github.com/duraki/decipiat/web/handlers"
+
+	"github.com/duraki/decipiat/web/session"
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	log "github.com/sirupsen/logrus"
@@ -56,6 +59,7 @@ func Init() *echo.Echo {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(session.Middleware(Sessions.NewCookieStore([]byte("secret"))))
 
 	SetGlobals()
 	log.Infof("global handlers %+v\n", handlers.GlobalConfig)
@@ -108,6 +112,7 @@ func MainGroup(e *echo.Echo) {
 
 func UserGroup(g *echo.Group) {
 	g.GET("/project/create", handlers.ProjectCreate)
+	//g.GET("/project/create", handlers.ProjectCreate)
 }
 
 func AdminGroup(g *echo.Group) {

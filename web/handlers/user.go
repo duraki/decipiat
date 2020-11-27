@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"github.com/duraki/decipiat/models"
+	"github.com/duraki/decipiat/web/session"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2"
@@ -90,6 +91,13 @@ func LoginUser(c echo.Context) (err error) {
 	}
 
 	if models.HashCompare(c.FormValue("password"), user.Password) {
+		sess, _ := session.Get("session", c)
+		sess.Options = web.Sessions.Options{
+			Path:     "/",
+			MaxAge:   86400 * 7,
+			HttpOnly: true,
+		}
+
 		return c.Render(http.StatusOK, "userhome", map[string]interface{}{
 			"email": user.Email,
 		})
