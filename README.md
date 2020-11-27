@@ -53,6 +53,9 @@ Options:
 
 Instructions for MacOS Catalina environment:
 
+* Install Golang
+* Install `dnstwist` (via brew or otherwise)
+
 ```
 ### MongoDB => https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 $ brew tap mongodb/brew
