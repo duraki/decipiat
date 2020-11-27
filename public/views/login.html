@@ -19,14 +19,14 @@
 
 			<p>Create a new organizational account or login to existing account: &nbsp; <a href="/register">Register</a> | <a href="/login">Login</a></p>
 
-			<form class="register">
+			<form class="register" action="/login" method="POST">
 			  <p>
-			    <label for="a" class="form-register-label">Username:</label>
-			    <input id="a" type="text">
+			    <label for="email" class="form-register-label" autocomplete="off">Email:</label>
+			    <input name="email" type="text">
 			  </p>
 			  <p>
-			    <label for="b" class="form-register-label">Password:</label>
-			    <input id="b" type="text">
+			    <label for="password" class="form-register-label" autocomplete="off">Password:</label>
+			    <input name="password" type="text">
 			  </p>
 			  <p>
 			  	<button class="btn btn-lg btn-primary btn-block middel loady" type="submit">Login</button>

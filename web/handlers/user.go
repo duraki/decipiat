@@ -52,7 +52,7 @@ func RegisterUser(c echo.Context) (err error) {
 	// Save user
 	db := GlobalConfig.DB.Clone()
 	defer db.Close()
-	if err = db.DB("decipiat").C("users").Insert(u); err != nil {
+	if err = db.DB(DatabaseName).C(models.CollectionUser).Insert(u); err != nil {
 		return
 	}
 
@@ -66,7 +66,6 @@ func RegisterUser(c echo.Context) (err error) {
 func LoginUser(c echo.Context) (err error) {
 	// Read the fields
 	email := c.FormValue("email")
-	password := c.FormValue("password")
 
 	// Bind
 	user := new(models.User)
@@ -75,12 +74,33 @@ func LoginUser(c echo.Context) (err error) {
 	db := GlobalConfig.DB.Clone()
 	defer db.Close()
 	if err = db.DB(DatabaseName).C(models.CollectionUser).
-		Find(bson.M{"email": email, "password": password}).One(user); err != nil {
+		Find(bson.M{"email": email}).One(user); err != nil {
 		if err == mgo.ErrNotFound {
-			return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
+			return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
+				"msg": fmt.Sprintf("User with email <%s> does not exists.", email),
+			})
+		}
+		if err != nil {
+			return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
+				"msg": fmt.Sprintf("Unknown error occured ..."),
+			})
+			log.Errorf("Unknown error occured when logging in: %s", email)
 		}
 		return
 	}
 
-	return c.JSON(http.StatusOK, "Logged in")
+	if models.HashCompare(c.FormValue("password"), user.Password) {
+		return c.Render(http.StatusOK, "userhome", map[string]interface{}{
+			"email": user.Email,
+		})
+		/**
+		return c.Render(http.StatusOK, "message", map[string]interface{}{
+			"msg": fmt.Sprintf("User is logged-in."),
+		})
+		*/
+	}
+
+	return c.Render(http.StatusOK, "message", map[string]interface{}{
+		"msg": fmt.Sprintf("Incorrect authentication details."),
+	})
 }

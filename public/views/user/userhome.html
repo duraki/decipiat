@@ -1,0 +1,25 @@
+{{define "userhome"}}
+	<html>
+		{{template "header"}}	
+		<body>
+			<h1>decipiat [ lat. <i>dēcipiat</i> ]</h1>
+			{{template "menu"}}
+			<code style="padding: 0px;"><pre>Welcome back.<br>Logged-in as <strong>{{index . "email"}}</strong>.</pre></code>
+
+			<h2>Useful links</h2>
+			<ul>
+			    <li><a href="/project/new" class="user_links">Create Project</a></li>
+			    <li><a href="/project/list" class="user_links">List Projects</a></li>
+			</ul>
+
+			<hr>
+
+			<!-- add landing page grid here -->
+			<!-- add bullets -->
+			<!-- and more importantly -->
+			<!-- add Content!!! --> 
+
+		{{template "footer"}}
+		</body>
+	</html>
+{{end}}

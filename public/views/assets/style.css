@@ -206,6 +206,11 @@ button.middel{
 	font-weight: 491;
 }
 
+.user_links:hover {
+	background: black;
+	color: white;
+}
+
 .checkbox {
   font-weight: normal;
 }
