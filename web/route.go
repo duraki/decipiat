@@ -96,6 +96,7 @@ func MainGroup(e *echo.Echo) {
 	e.GET("/login", handlers.LoginUserView)
 	e.POST("/login", handlers.LoginUser)
 	e.GET("/logout", handlers.LogoutUser)
+	e.GET("/me", handlers.UserDashboardView)
 
 	/*
 		e.GET("/", handler.Home)

@@ -11,6 +11,21 @@ import (
 	"net/http"
 )
 
+func UserDashboardView(c echo.Context) error {
+	/* set user to session */
+	user := session.GetUser()
+
+	if session.IsUserAuthenticated(c) {
+		log.Infof("%s\n", "show user dashboard via render ...")
+		return c.Render(http.StatusBadRequest, "userhome", map[string]interface{}{
+			"user": user,
+		})
+		//return c.Render(http.StatusOK, "userhome", session.GetSessionFromRequest(c).User)
+	}
+
+	return c.Redirect(http.StatusTemporaryRedirect, "/login")
+}
+
 func RegisterUserView(c echo.Context) error {
 	log.Infof("%s\n", "register user view handler started ...")
 	return c.Render(http.StatusOK, "register", nil)
@@ -20,7 +35,7 @@ func LoginUserView(c echo.Context) error {
 	log.Infof("%s\n", "login user view handler started ...")
 
 	if session.IsUserAuthenticated(c) {
-		return c.Redirect(http.StatusTemporaryRedirect, "/project/new")
+		return c.Redirect(http.StatusTemporaryRedirect, "/me")
 		/**
 		return c.Render(http.StatusOK, "message", map[string]interface{}{
 			"msg": fmt.Sprintf("Please login again to continue."),
@@ -111,14 +126,18 @@ func LoginUser(c echo.Context) (err error) {
 		return
 	}
 
-	session, _ := session.Store.Get(c.Request(), session.SessionTokenName)
+	sess := session.GetSessionFromRequest(c)
+	//sess, _ := session.Store.Get(c.Request(), session.SessionTokenName)
 	if models.HashCompare(c.FormValue("password"), user.Password) {
-		session.Values["authenticated"] = true
-		session.Values["email"] = email
-		session.Save(c.Request(), c.Response())
+		sess.Values["authenticated"] = true
+		sess.Values["email"] = email
+		sess.Save(c.Request(), c.Response())
+
+		/* set user to session */
+		session.User = user
 
 		return c.Render(http.StatusOK, "userhome", map[string]interface{}{
-			"email": user.Email,
+			"user": session.User,
 		})
 		/**
 		return c.Render(http.StatusOK, "message", map[string]interface{}{
