@@ -1,5 +1,16 @@
 @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
 
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 /* centering the content fixed */
 body {
   margin: 0 auto;
@@ -8,15 +19,30 @@ body {
   line-height: 1.5;
   padding: 4em 1em;
   color: #555;
+  position: relative;
+  padding-bottom: 6rem;
+  min-height: 100%;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.8;
 }
 
 .notice {
-    font-size: 15px;
-    line-height: 1.1;
-    letter-spacing: 0.04em;
-    font-weight: 500;
-    font-style: italic;
-    color: #625b5b;
+  font-size: 15px;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-style: italic;
+  color: #625b5b;
 }
 
 h2 {
