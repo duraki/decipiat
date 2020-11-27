@@ -29,7 +29,6 @@ func GetUser() *models.User {
 }
 
 func IsUserAuthenticated(c echo.Context) bool {
-	return User != nil
 
 	session, _ := Store.Get(c.Request(), SessionTokenName)
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
@@ -37,7 +36,11 @@ func IsUserAuthenticated(c echo.Context) bool {
 		return false
 	}
 
-	return true
+	if User != nil {
+		return true
+	}
+
+	return false
 }
 
 func GetSessionFromRequest(req echo.Context) (sess *sessions.Session) {
