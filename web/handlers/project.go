@@ -11,19 +11,20 @@ import (
 )
 
 func ProjectCreateView(c echo.Context) error {
-	session, _ := session.Store.Get(c.Request(), session.SessionTokenName)
-	log.Infof("%s\n", "project create view handler started ...")
-
-	// Check if authenticated
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+	if !session.IsUserAuthenticated(c) {
 		log.Infof("%s\n", "user is not authenticated, trying to access pass the project page")
 		return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
 			"msg": fmt.Sprintf("Please login again to continue."),
 		})
+		//return c.Render(http.StatusOK, "userhome", session.GetSessionFromRequest(c).User)
 	}
+	log.Infof("%s\n", "project create view handler started ...")
+
+	/* set user to session */
+	user := session.GetUser()
 
 	return c.Render(http.StatusOK, "project_create", map[string]interface{}{
-		"email": "test",
+		"user": user,
 	})
 }
 

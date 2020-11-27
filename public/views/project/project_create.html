@@ -4,6 +4,7 @@
 		<body>
 			<h1>decipiat [ lat. <i>dēcipiat</i> ]</h1>
 			{{template "menu"}}
+			{{template "loggedin" (index . "user").Email}}
 
 			<h2>Create a new project</h2>
 
@@ -13,8 +14,8 @@
 				<div class="leftier">
 				<form class="register" action="/project/new" method="POST">
 				  <p>
-				    <label for="name" class="form-register-label" autocomplete="off">Project Name:</label>
-				    <input name="name" type="text">
+				    <label for="project_name" class="form-register-label" autocomplete="off">Project Name:</label>
+				    <input name="project_name" type="text">
 				  </p>
 				  <p>
 				    <label for="identifier" class="form-register-label" autocomplete="off">Project Identifier:</label>
@@ -34,6 +35,9 @@
 					</div>
 				</div>
 			</div>
+
+			<hr>
+			{{template "dashlinks"}}
 
 			<!-- add landing page grid here -->
 			<!-- add bullets -->

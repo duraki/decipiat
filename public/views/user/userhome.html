@@ -5,16 +5,11 @@
 			<h1>decipiat [ lat. <i>dēcipiat</i> ]</h1>
 			{{template "menu"}}
 			{{template "loggedin" (index . "user").Email}}
-			<!-- <code style="padding: 0px;"><pre>Welcome back.<br>Logged-in as <strong>{{ range $key, $value := .}} {{ $value.Email }} {{ end }}</strong>.</pre></code> -->
-
-			<h2>Useful links</h2>
-			<ul>
-				<li><a href="/me" class="user_links">Dashboard</a>
-			    <li><a href="/project/new" class="user_links">Create Project</a></li>
-			    <li><a href="/project/list" class="user_links">List Projects</a></li>
-			</ul>
 
 			<hr>
+			{{template "dashlinks"}}
+			<hr>
+
 
 			<!-- add landing page grid here -->
 			<!-- add bullets -->
