@@ -18,6 +18,7 @@ func SearchDomain(c echo.Context) error {
 	domains := core.GenerateSimilar(domain)
 
 	return c.Render(http.StatusOK, "domainview", map[string]interface{}{
+		"domain": domain,
 		"domains": domains,
 	})
 }
