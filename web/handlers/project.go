@@ -64,35 +64,14 @@ func ProjectCreate(c echo.Context) (err error) {
 
 func ProjectListView(c echo.Context) (err error) {
 	db := GlobalConfig.DB.Clone()
+	defer db.Close()
 
 	var projects []*models.Project
 
-	defer db.Close()
-	//bson.M{"userId": session.User.ID}
 	// Pull All:
-	// if err = db.DB(DatabaseName).C(models.CollectionProject).Find(nil).All(&projects); err != nil {
-	// 	log.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
-	// }
-
-	// Pull Specific:
-	query := bson.M{
-		"$match": bson.M{
-			"userId": session.User.ID,
-		},
-	}
-	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(query).All(&projects); err != nil {
+	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(nil).All(&projects); err != nil {
 		log.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
-		return
 	}
 
 	return c.JSON(http.StatusOK, projects)
-
-	/**
-	prj := &models.Project{}
-
-	if prj, err = db.DB(DatabaseName).C(models.CollectionProject)
-		.Find(bson.M{"_userId": session.GetUser().ID}); err != nil {
-			return c.JSON(http.StatusOK, fmt.Sprintf("Found total projects %+v", ))
-		}
-	**/
 }

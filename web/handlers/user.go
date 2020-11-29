@@ -9,6 +9,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
+	"time"
 )
 
 func UserDashboardView(c echo.Context) error {
@@ -60,6 +61,7 @@ func RegisterUser(c echo.Context) (err error) {
 
 	// Bind
 	u := &models.User{ID: bson.NewObjectId(), Email: email, Password: hash}
+	u.CreatedAt, u.UpdatedAt = time.Now(), time.Now()
 
 	// Default binding via POST req body.
 	// if err = c.Bind(u); err != nil {
