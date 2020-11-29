@@ -183,6 +183,17 @@ a {
 	font-weight: 409;
 }
 
+.other-buttons {
+  background: #f2e7af;
+  color: black;
+  font-style: normal;
+  padding: 5px;
+  border: 0px solid;
+  text-decoration: none;
+  border-radius: 7px;
+  font-size: medium;
+}
+
 button, input[type="button"], input[type="reset"], input[type="submit"] {
 	cursor: pointer;
 	-webkit-appearance: button;
@@ -245,6 +256,15 @@ button.middel{
 .smaller-details {
 	font-size: 12px;
 	color: #666;
+}
+
+.info-project {
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0.005em;
+  font-weight: 400;
+  width: 90%;
+  color: #a8a4a4;
 }
 
 /** c o l o r -- tablelist */

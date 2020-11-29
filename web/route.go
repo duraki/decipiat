@@ -101,6 +101,7 @@ func MainGroup(e *echo.Echo) {
 	e.GET("/project/new", handlers.ProjectCreateView)
 	e.POST("/project/new", handlers.ProjectCreate)
 	e.GET("/project/list", handlers.ProjectListView)
+	e.GET("/project/view/:cpvUuid", handlers.ProjectView)
 
 	// Route for domain generation
 	e.GET("/domain", handlers.DomainView)

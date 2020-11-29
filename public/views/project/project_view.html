@@ -1,0 +1,99 @@
+{{define "project_view"}}
+	<html>
+		{{template "header"}}	
+		<body>
+			{{template "menu"}}
+			{{template "loggedin" (index . "user").Email}}
+
+			<h2>Project View - <code>{{ (index . "project").CpvUuid }}</code></h2>
+
+			<div class="info-project">This project was created on (DATE) by user: (UserID). The internal project ID is (INTERNALID). Follow the links below to edit your phishing campaign.</div>
+
+			<hr>
+
+
+			<div class="group-one">
+				<!-- idu buttoni za: victim domain, phishing domain -->
+				<h4 class="group-title">(1) Target elementaries</h4>
+				<!-- postavljanje real targeta npr. amazon.com -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Setup Target</a>
+
+				<!-- postavljanje redirect domene npr. amaz0n.com, enabliranje SSL certa -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Setup Redirect</a>
+			</div>
+
+			<hr>
+
+			<div class="group-two">
+				<!-- idu buttoni za: web preview etc -->
+				<h4 class="group-title">(2) Target view</h4>
+
+				<!-- postavljanje wysiwyg stvari -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Edit a webpage</a>
+
+				<!-- postavljanje dodatnih opcija, npr delay itd. -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Additional Options</a>
+
+				<!-- preview (izgled) phishing stranice -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Preview</a>
+			</div>
+
+			<hr>
+
+			<div class="group-three">
+				<!-- idu buttoni za: target loadout, email template, smtp, email params -->
+				<h4 class="group-title">(3) Phishing campaign</h4>
+
+				<!-- postavljanje target loadout (contacts, CSV, file upload) -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Target Loadout</a>
+
+				<!-- email template -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Email Template</a>
+
+				<!-- email params -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Email Parameters</a>
+
+				<!-- smtp -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">SMTP Configuration</a>
+			</div>
+
+			<hr>
+
+			<div class="group-four">
+				<!-- idu buttoni za: target loadout, email template, smtp, email params -->
+				<h4 class="group-title">(4) Execution</h4>
+
+				<!-- email template -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Schedule</a>
+
+				<!-- postavljanje target loadout (contacts, CSV, file upload) -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Apply Configuration</a>
+
+				<!-- EXECUTE (staviti drugi BG color) -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Execute</a>
+			</div>
+
+			<hr>
+
+			<div class="group-five">
+				<!-- idu buttoni za: target loadout, email template, smtp, email params -->
+				<h4 class="group-title">(5) Results</h4>
+
+				<!-- email template -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons" style="background: black; color: white;">Dashboard</a>
+
+				<!-- postavljanje target loadout (contacts, CSV, file upload) -->
+				<a href="/project/edit/:cpvUuid/domain" class="other-buttons" style="background: #31b0a4; color: white;">General Information</a>
+			</div>
+
+			{{template "dashlinks"}}
+
+			<!-- add landing page grid here -->
+			<!-- add bullets -->
+			<!-- and more importantly -->
+			<!-- add Content!!! --> 
+
+		{{template "footer"}}
+		</body>
+	</html>
+{{end}}
