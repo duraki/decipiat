@@ -68,42 +68,24 @@ func ProjectListView(c echo.Context) (err error) {
 	var projects []*models.Project
 
 	defer db.Close()
-	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(bson.M{"userId": session.User.ID}).All(&projects); err != nil {
-		fmt.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
+	//bson.M{"userId": session.User.ID}
+	// Pull All:
+	// if err = db.DB(DatabaseName).C(models.CollectionProject).Find(nil).All(&projects); err != nil {
+	// 	log.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
+	// }
+
+	// Pull Specific:
+	query := bson.M{
+		"$match": bson.M{
+			"userId": session.User.ID,
+		},
+	}
+	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(query).All(&projects); err != nil {
+		log.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
+		return
 	}
 
-	// err := db.C("client").Find(nil).All(&results)
-	// if err != nil {
-	// 	// TODO: Do something about the error
-	// } else {
-	// 	fmt.Println("Results All: ", results)
-	// }
-
-	// projects := []*models.Project{}
-
-	// if err = db.DB(DatabaseName).C(models.CollectionProject).
-	// 	.Find(bson.M({}).
-	// 	All(&projects); err != nil {
-	// }
-
-	// if err = db.DB(DatabaseName).C(models.CollectionProject).
-	// 	Find(bson.M{"userId": session.User.ID}).
-	// 	All(&projects); err != nil {
-	// 	return
-	// }
-
 	return c.JSON(http.StatusOK, projects)
-
-	// // Retrieve posts from database
-	// posts := []*model.Post{}
-	// db := h.DB.Clone()
-	// if err = db.DB("twitter").C("posts").
-	// 	Find(bson.M{"to": userID}).
-	// 	Skip((page - 1) * limit).
-	// 	Limit(limit).
-	// 	All(&posts); err != nil {
-	// 	return
-	// }
 
 	/**
 	prj := &models.Project{}
@@ -114,36 +96,3 @@ func ProjectListView(c echo.Context) (err error) {
 		}
 	**/
 }
-
-/**
-if err = db.DB("twitter").C("users").
-	Find(bson.M{"email": u.Email, "password": u.Password}).One(u); err != nil {
-	if err == mgo.ErrNotFound {
-		return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
-	}
-	return
-}
-*/
-
-/*
-
-func GetProject(c echo.Context) error {
-	name := c.QueryParam("name")
-	dataType := c.QueryParam("data")
-	projectType := c.QueryParam("type")
-
-	if dataType == "string" {
-		return c.String(http.StatusOK, fmt.Sprintf("Your project ID: %s\n", name))
-	} else if dataType == "json" {
-		return c.JSON(http.StatusOK, map[string]string{
-			"projectId": name,
-			"type":      projectType,
-		})
-	} else {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "please specify the data type as String or JSON",
-		})
-	}
-}
-
-*/
