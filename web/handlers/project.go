@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2/bson"
+	"html/template"
 	"net/http"
 )
 
@@ -38,7 +39,7 @@ func ProjectCreate(c echo.Context) (err error) {
 	int := c.FormValue("identifier")
 
 	// Bind
-	prj := &models.Project{ID: bson.NewObjectId(), Name: name, InternalId: int}
+	prj := &models.Project{ID: bson.NewObjectId(), Name: name, InternalId: int, UserID: session.GetUser().ID}
 
 	// Validate
 	if prj.Name == "" {
@@ -56,26 +57,73 @@ func ProjectCreate(c echo.Context) (err error) {
 	}
 
 	return c.Render(http.StatusCreated, "message", map[string]interface{}{
-		"msg": fmt.Sprintf("Project [%s] created (INTID: %s) #", prj.Name, prj.InternalId),
+		"msg":      template.HTML(fmt.Sprintf("Project [%s] created (w internal_id: %s) #.", prj.Name, prj.InternalId)),
+		"template": template.HTML(fmt.Sprintf("%s", "Click <a href='/project/list'>here</a> to List all projects.")),
 	})
 }
 
-/**
-func ProjectCreate(c echo.Context) error {
-	//return c.String(http.StatusOK, "Project created")
-	project := models.Project{}
-	defer c.Request().Body.Close()
+func ProjectListView(c echo.Context) (err error) {
+	db := GlobalConfig.DB.Clone()
 
-	err := json.NewDecoder(c.Request().Body).Decode(&project)
-	if err != nil {
-		log.Fatalf("Failed reading the request body %s", err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
+	var projects []*models.Project
+
+	defer db.Close()
+	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(bson.M{"userId": session.User.ID}).All(&projects); err != nil {
+		fmt.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
 	}
 
-	log.Printf("new project created .. in %#v", project)
-	return c.String(http.StatusOK, "Project created")
+	// err := db.C("client").Find(nil).All(&results)
+	// if err != nil {
+	// 	// TODO: Do something about the error
+	// } else {
+	// 	fmt.Println("Results All: ", results)
+	// }
+
+	// projects := []*models.Project{}
+
+	// if err = db.DB(DatabaseName).C(models.CollectionProject).
+	// 	.Find(bson.M({}).
+	// 	All(&projects); err != nil {
+	// }
+
+	// if err = db.DB(DatabaseName).C(models.CollectionProject).
+	// 	Find(bson.M{"userId": session.User.ID}).
+	// 	All(&projects); err != nil {
+	// 	return
+	// }
+
+	return c.JSON(http.StatusOK, projects)
+
+	// // Retrieve posts from database
+	// posts := []*model.Post{}
+	// db := h.DB.Clone()
+	// if err = db.DB("twitter").C("posts").
+	// 	Find(bson.M{"to": userID}).
+	// 	Skip((page - 1) * limit).
+	// 	Limit(limit).
+	// 	All(&posts); err != nil {
+	// 	return
+	// }
+
+	/**
+	prj := &models.Project{}
+
+	if prj, err = db.DB(DatabaseName).C(models.CollectionProject)
+		.Find(bson.M{"_userId": session.GetUser().ID}); err != nil {
+			return c.JSON(http.StatusOK, fmt.Sprintf("Found total projects %+v", ))
+		}
+	**/
 }
-**/
+
+/**
+if err = db.DB("twitter").C("users").
+	Find(bson.M{"email": u.Email, "password": u.Password}).One(u); err != nil {
+	if err == mgo.ErrNotFound {
+		return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
+	}
+	return
+}
+*/
 
 /*
 
@@ -96,26 +144,6 @@ func GetProject(c echo.Context) error {
 			"error": "please specify the data type as String or JSON",
 		})
 	}
-}
-
-func AddProject(c echo.Context) error {
-	type Project struct {
-		Name string `json:"name"`
-		Type string `json:"type"`
-	}
-
-	project := Project{}
-	defer c.Request().Body.Close()
-
-	err := json.NewDecoder(c.Request().Body).Decode(&project)
-	if err != nil {
-		log.Fatalf("Failed reading the request body %s", err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error)
-	}
-
-	log.Printf("This is your project %#v", project)
-	return c.String(http.StatusOK, "We got your project !!!")
-
 }
 
 */

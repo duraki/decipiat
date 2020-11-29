@@ -100,6 +100,7 @@ func MainGroup(e *echo.Echo) {
 	// Route for Project Management
 	e.GET("/project/new", handlers.ProjectCreateView)
 	e.POST("/project/new", handlers.ProjectCreate)
+	e.GET("/project/list", handlers.ProjectListView)
 
 	// Route for domain generation
 	e.GET("/domain", handlers.DomainView)
