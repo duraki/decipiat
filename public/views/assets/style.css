@@ -5,6 +5,12 @@ html {
   box-sizing: border-box;
 }
 
+.template {
+  background: #f2f2f2;
+  color: black;
+  padding: 10px;
+}
+
 *,
 *:before,
 *:after {
