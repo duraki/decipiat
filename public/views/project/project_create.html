@@ -11,13 +11,13 @@
 
 			<div class="project-basics">
 				<div class="leftier">
-				<form class="register" action="/project/new" method="POST">
+				<form class="register" action="/project/new" method="POST" autocomplete="off">
 				  <p>
-				    <label for="project_name" class="form-register-label" autocomplete="off">Project Name:</label>
+				    <label for="project_name" class="form-register-label">Project Name:</label>
 				    <input name="project_name" type="text">
 				  </p>
 				  <p>
-				    <label for="identifier" class="form-register-label" autocomplete="off">Project Identifier:</label>
+				    <label for="identifier" class="form-register-label">Project Identifier:</label>
 				    <input name="identifier" type="text">
 				  </p>
 				  <p>
@@ -34,6 +34,7 @@
 					</div>
 				</div>
 			</div>
+			<br>
 
 			{{template "dashlinks"}}
 
