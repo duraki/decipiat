@@ -10,15 +10,15 @@
 
 			<hr>
 
-			<h2>Results for domain <i>{{ (index . "domain") }}</i></h2>
+			<h2>Results for domain <i>{{ (index . "domain") }}</i> (Total domains permutated: <i>{{ index . "total"}})</i></h2>
 
 			<hr>
 
 			<h2>Domains</h2>
 			<table>
-				<tr><th>Domain</th><th>Type</th><th>Available</th></tr>
+				<tr><th>Domain</th><th>Type</th><th>Available</th><th>Success rate</th></tr>
 				{{ range (index . "domains").Domains }}
-					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td><td>[{{ range .Available }}{{ . }}, {{end}}]</td></tr>
+					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td><td>[{{ range .Available }}{{ . }}, {{end}}]</td><td> {{ printf "%.2f" .SuccessRate }}</tr>
 				{{ end }}
 			</table>	
 

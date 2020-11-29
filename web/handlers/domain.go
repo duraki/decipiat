@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/duraki/decipiat/core"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
-	"net/http"
-	"strconv"
 )
 
 func DomainView(c echo.Context) error {
@@ -32,9 +33,10 @@ func SearchDomain(c echo.Context) error {
 		}
 	}
 
-	domains := core.GenerateSimilar(domain, number, types)
+	domains, total := core.GenerateSimilar(domain, number, types)
 
 	return c.Render(http.StatusOK, "domainview", map[string]interface{}{
+		"total":   total,
 		"domain":  domain,
 		"domains": domains,
 	})

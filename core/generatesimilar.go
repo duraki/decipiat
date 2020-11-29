@@ -1,15 +1,17 @@
 package core
 
 import (
-	"github.com/duraki/decipiat/models"
 	"math/rand"
 	"strings"
 	"unicode"
 
+	"github.com/duraki/decipiat/models"
+
 	"fmt"
-	_ "github.com/sirupsen/logrus"
 	"net"
 	"sync"
+
+	_ "github.com/sirupsen/logrus"
 )
 
 func countChar(word string) map[rune]int {
@@ -148,19 +150,25 @@ func hyphenation(domain string) []models.Domain {
 	return results
 }
 
-func isAvailable(domain *models.Domain, wg *sync.WaitGroup) {
+func getRandomSuccessRate() float64 {
+	return rand.Float64()
+}
+
+func isAvailableAndSuccessRate(domain *models.Domain, wg *sync.WaitGroup) {
 	defer wg.Done()
 	ip_records, err := net.LookupIP(domain.Name)
 	if err != nil {
 		domain.Available = []string{"Unavailable"}
+		domain.SuccessRate = getRandomSuccessRate()
 	} else {
 		for _, rec := range ip_records {
 			domain.Available = append(domain.Available, rec.String())
+			domain.SuccessRate = getRandomSuccessRate()
 		}
 	}
 }
 
-func GenerateSimilar(domain string, n int, types string) *models.AllDomains {
+func GenerateSimilar(domain string, n int, types string) (*models.AllDomains, int) {
 	var res [][]models.Domain
 	var collected []models.Domain
 
@@ -213,10 +221,10 @@ func GenerateSimilar(domain string, n int, types string) *models.AllDomains {
 	var wg sync.WaitGroup
 	for i := 0; i < n; i++ {
 		wg.Add(1)
-		go isAvailable(&collected[i], &wg)
+		go isAvailableAndSuccessRate(&collected[i], &wg)
 	}
 
 	wg.Wait()
 
-	return &models.AllDomains{Domains: collected}
+	return &models.AllDomains{Domains: collected}, totalItems
 }
