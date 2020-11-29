@@ -66,10 +66,11 @@ func ProjectListView(c echo.Context) (err error) {
 	db := GlobalConfig.DB.Clone()
 	defer db.Close()
 
-	var projects []*models.Project
+	var projects []models.Project
+
 
 	// Pull All:
-	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(nil).All(&projects); err != nil {
+	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(bson.M{"_userid": bson.ObjectIdHex("5fc386b91c0f5519d4d7ebf9")}).All(&projects); err != nil {
 		log.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
 	}
 
