@@ -1,7 +1,6 @@
 package core
 
 import (
-	_ "net/http"
 	"math/rand"
 	"unicode"
 	"strings"
@@ -9,7 +8,10 @@ import (
 
 	_ "github.com/sirupsen/logrus"
 	"fmt"
+	"net"
+	"sync"
 )
+
 
 func countChar(word string) map[rune]int {
 	count := make(map[rune]int)
@@ -147,6 +149,17 @@ func hyphenation(domain string) []models.Domain {
 	return results
 }
 
+func isAvailable(domain *models.Domain, wg *sync.WaitGroup) {
+	defer wg.Done()
+	ip_records, err := net.LookupIP(domain.Name)
+	if err != nil {
+		domain.Available = []string{"Unavailable"}
+	} else {
+		for _, rec := range ip_records {
+			domain.Available = append(domain.Available, rec.String())
+		}
+	}
+}
 
 func GenerateSimilar(domain string, n int, types string) *models.AllDomains {
 	var res [][]models.Domain
@@ -180,12 +193,32 @@ func GenerateSimilar(domain string, n int, types string) *models.AllDomains {
 		}
 	}
 
+	totalItems := 0
+
+	for i := range res {
+		totalItems += len(res[i])
+	}
+
+	if n > totalItems || n == 0 {
+		n = totalItems
+	}
+
 	// Pick n elements from the results
 	for i := 0; i < n; i++ {
 		randomArrayNumber := rand.Intn(len(res))
 		randomDomainNumber := rand.Intn(len(res[randomArrayNumber]))
 		collected = append(collected, res[randomArrayNumber][randomDomainNumber])
 	}
+
+	// Check if domain is available
+	var wg sync.WaitGroup
+	for i := 0; i < n; i++ {
+		wg.Add(1)
+		go isAvailable(&collected[i], &wg)
+	}
+
+	wg.Wait()
+	
 
 	return &models.AllDomains{Domains: collected}
 }

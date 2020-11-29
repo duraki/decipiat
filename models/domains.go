@@ -14,6 +14,7 @@ const (
 type Domain struct {
 	Name 			string
 	Type 			DomainType
+	Available		[]string
 }
 
 type AllDomains struct {

@@ -16,9 +16,9 @@
 
 			<h2>Domains</h2>
 			<table>
-				<tr><th>Domain</th><th>Type</th></tr>
+				<tr><th>Domain</th><th>Type</th><th>Available</th></tr>
 				{{ range (index . "domains").Domains }}
-					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td></tr>
+					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td><td>[{{ range .Available }}{{ . }}, {{end}}]</td></tr>
 				{{ end }}
 			</table>	
 
