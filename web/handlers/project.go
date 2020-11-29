@@ -126,6 +126,6 @@ func ProjectView(c echo.Context) (err error) {
 
 	return c.Render(http.StatusUnauthorized, "project_view", map[string]interface{}{
 		"project": project,
-		"user": session.GetUser()
+		"user":    session.GetUser(),
 	})
 }

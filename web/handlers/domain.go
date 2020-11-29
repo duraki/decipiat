@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"github.com/duraki/decipiat/core"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
-	"github.com/duraki/decipiat/core"
 	"net/http"
 	"strconv"
 )
@@ -35,7 +35,7 @@ func SearchDomain(c echo.Context) error {
 	domains := core.GenerateSimilar(domain, number, types)
 
 	return c.Render(http.StatusOK, "domainview", map[string]interface{}{
-		"domain": domain,
+		"domain":  domain,
 		"domains": domains,
 	})
 }

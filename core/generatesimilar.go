@@ -1,17 +1,16 @@
 package core
 
 import (
-	"math/rand"
-	"unicode"
-	"strings"
 	"github.com/duraki/decipiat/models"
+	"math/rand"
+	"strings"
+	"unicode"
 
-	_ "github.com/sirupsen/logrus"
 	"fmt"
+	_ "github.com/sirupsen/logrus"
 	"net"
 	"sync"
 )
-
 
 func countChar(word string) map[rune]int {
 	count := make(map[rune]int)
@@ -23,15 +22,15 @@ func countChar(word string) map[rune]int {
 
 func bitsquatting(domain string) []models.Domain {
 	results := []models.Domain{}
-	masks := []int32{1,2,4,8,16,32,64,128}
+	masks := []int32{1, 2, 4, 8, 16, 32, 64, 128}
 
 	for i, c := range domain {
 		for m := range masks {
-			b := rune(int(c)^m)
+			b := rune(int(c) ^ m)
 			o := int(b)
 			if (o >= 48 && o <= 57) || (o >= 97 && o <= 122) || o == 45 {
 				d := fmt.Sprintf("%s%c%s", domain[:i], b, domain[i+1:])
-				results = append(results, models.Domain{  Name: d, Type: models.Bitsquatting})
+				results = append(results, models.Domain{Name: d, Type: models.Bitsquatting})
 			}
 		}
 	}
@@ -50,7 +49,7 @@ func vowels(domain string) []models.Domain {
 			case 'a', 'e', 'i', 'o', 'u', 'y':
 				if runes[i] != v {
 					d := fmt.Sprintf("%s%c%s", string(runes[:i]), v, string(runes[i+1:]))
-					results = append(results, models.Domain{  Name: d, Type: models.Vowels})
+					results = append(results, models.Domain{Name: d, Type: models.Vowels})
 				}
 			default:
 			}
@@ -68,7 +67,7 @@ func repetition(domain string) []models.Domain {
 			// remove duplicates
 			count[result]++
 			if count[result] < 2 {
-				results = append(results, models.Domain{  Name: result, Type: models.Repetition})
+				results = append(results, models.Domain{Name: result, Type: models.Repetition})
 			}
 		}
 	}
@@ -79,7 +78,7 @@ func omission(domain string) []models.Domain {
 	results := []models.Domain{}
 	for i := range domain {
 		d := fmt.Sprintf("%s%s", domain[:i], domain[i+1:])
-		results = append(results, models.Domain{  Name: d, Type: models.Omission})
+		results = append(results, models.Domain{Name: d, Type: models.Omission})
 	}
 	return results
 }
@@ -107,8 +106,8 @@ func homograph(domain string) []models.Domain {
 		's': {'Ⴝ', '\u13DA', 'ʂ', 'ś', 'ѕ'},
 		't': {'τ', 'т', 'ţ'},
 		'u': {'μ', 'υ', 'Ս', 'ս', 'ц', 'ᴜ', 'ǔ', 'ŭ'},
-		'v': {'ѵ', 'ν', '\u1E7F', '\u1E7D'},      // 'v̇'
-		'w': {'ѡ', 'ա', 'ԝ'}, // 'vv'
+		'v': {'ѵ', 'ν', '\u1E7F', '\u1E7D'}, // 'v̇'
+		'w': {'ѡ', 'ա', 'ԝ'},                // 'vv'
 		'x': {'х', 'ҳ', '\u1E8B'},
 		'y': {'ʏ', 'γ', 'у', 'Ү', 'ý'},
 		'z': {'ʐ', 'ż', 'ź', 'ʐ', 'ᴢ'},
@@ -122,7 +121,7 @@ func homograph(domain string) []models.Domain {
 		// perform attack against single character
 		for _, glyph := range glyphs[char] {
 			d := fmt.Sprintf("%s%c%s", string(runes[:i]), glyph, string(runes[i+1:]))
-			results = append(results, models.Domain{  Name: d, Type:models.Homograph})
+			results = append(results, models.Domain{Name: d, Type: models.Homograph})
 		}
 		// determine if character is a duplicate
 		// and if the attack has already been performed
@@ -131,7 +130,7 @@ func homograph(domain string) []models.Domain {
 			doneCount[char] = true
 			for _, glyph := range glyphs[char] {
 				result := strings.Replace(domain, string(char), string(glyph), -1)
-				results = append(results, models.Domain{  Name: result, Type:models.Homograph})
+				results = append(results, models.Domain{Name: result, Type: models.Homograph})
 			}
 		}
 	}
@@ -143,7 +142,7 @@ func hyphenation(domain string) []models.Domain {
 	for i := 1; i < len(domain); i++ {
 		if (rune(domain[i]) != '-' || rune(domain[i]) != '.') && (rune(domain[i-1]) != '-' || rune(domain[i-1]) != '.') {
 			d := fmt.Sprintf("%s-%s", domain[:i], domain[i:])
-			results = append(results, models.Domain{  Name: d, Type: models.Hyphenation})
+			results = append(results, models.Domain{Name: d, Type: models.Hyphenation})
 		}
 	}
 	return results
@@ -218,7 +217,6 @@ func GenerateSimilar(domain string, n int, types string) *models.AllDomains {
 	}
 
 	wg.Wait()
-	
 
 	return &models.AllDomains{Domains: collected}
 }
