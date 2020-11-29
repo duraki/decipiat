@@ -10,7 +10,7 @@
 			<ul>
 
 			{{range (index . "projects")}}
-				<li><a href="{{ . }}">{{ .Name }}</a> - <code>{{ .ID }}</code></li>
+				<li><a href="/project/view/{{ .CpvUuid }}">{{ .Name }}</a> - <code>{{ .CpvUuid }}</code> / <code>{{ .ID }}</code> </li>
 			{{end}}
 
 			</ul>

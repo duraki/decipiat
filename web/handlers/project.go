@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"github.com/duraki/decipiat/models"
 	"github.com/duraki/decipiat/web/session"
+	"github.com/google/uuid"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2/bson"
 	"html/template"
 	"net/http"
+	"time"
 )
 
 func ProjectCreateView(c echo.Context) error {
@@ -37,9 +39,18 @@ func ProjectCreate(c echo.Context) (err error) {
 
 	name := c.FormValue("project_name")
 	int := c.FormValue("identifier")
+	cpvUuid := uuid.New().String()
 
 	// Bind
-	prj := &models.Project{ID: bson.NewObjectId(), Name: name, InternalId: int, UserID: session.GetUser().ID}
+	prj := &models.Project{
+		ID:         bson.NewObjectId(),
+		Name:       name,
+		InternalId: int,
+		UserID:     session.GetUser().ID,
+		CpvUuid:    cpvUuid,
+		CreatedAt:  time.Now(),
+		UpdatedAt:  time.Now(),
+	}
 
 	// Validate
 	if prj.Name == "" {
