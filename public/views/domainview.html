@@ -10,27 +10,19 @@
 
 			<hr>
 
-			<h2>Results for domain <i>{{ index . "domain" }}</i></h2>
-
-			<table>
-				<tr><th>Registered Domains</th><tr>
-				{{ range (index . "domains").Available }}
-				<tr><td>{{ . }}</td></tr>
-				{{ end }}
-			</table>
-
-			<hr>
-			
-			<table>
-				<tr><th>Random Domains</th><tr>
-				{{ range (index . "domains").All }}
-				<tr><td>{{ . }}</td></tr>
-				{{ end }}
-			</table>
+			<h2>Results for domain <i>{{ (index . "domain") }}</i></h2>
 
 			<hr>
 
-			
+			<h2>Domains</h2>
+			<table>
+				<tr><th>Domain</th><th>Type</th></tr>
+				{{ range (index . "domains").Domains }}
+					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td></tr>
+				{{ end }}
+			</table>	
+
+			<hr>
 
 			{{template "footer"}}
 		</body>
