@@ -68,11 +68,18 @@ func ProjectListView(c echo.Context) (err error) {
 
 	var projects []models.Project
 
-
-	// Pull All:
-	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(bson.M{"_userid": bson.ObjectIdHex("5fc386b91c0f5519d4d7ebf9")}).All(&projects); err != nil {
+	// Pull specific:
+	if err = db.DB(DatabaseName).C(models.CollectionProject).Find(bson.M{"_userid": bson.ObjectIdHex(fmt.Sprintf("%x", string(session.User.ID)))}).All(&projects); err != nil {
 		log.Errorf("%s %+v", "Error while retrieve Project List View, User", session.GetUser())
+		return c.Render(http.StatusOK, "message", map[string]interface{}{
+			"msg": "Your project list is empty.",
+		})
 	}
+
+	return c.Render(http.StatusOK, "project_list", map[string]interface{}{
+		"projects": projects,
+		"user":     session.GetUser(),
+	})
 
 	return c.JSON(http.StatusOK, projects)
 }

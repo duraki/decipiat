@@ -7,48 +7,15 @@
 
 			<h2>Project List</h2>
 
-<!--
-				<ul>
-					<li><a href="/me" class="user_links">Dashboard</a>
-				    <li><a href="/project/new" class="user_links">Create Project</a></li>
-				    <li><a href="/project/list" class="user_links">List Projects</a></li>
-				    <li><a href="/templates" class="user_links">Available Templates</a> [<a href="/templates/email">for email</a>, <a href="/templates/web">or web</a>]</li>
-				    <hr>
-				    <li><a href="/domain" class="user_links">Generate domains</a></li>
-				    <li><a href="/logout" class="user_links">Logout</a></li>
-				</ul>
--->
+			<ul>
+
+			{{range (index . "projects")}}
+				<li><a href="{{ . }}">{{ .Name }}</a> - <code>{{ .ID }}</code></li>
+			{{end}}
+
+			</ul>
 
 			<hr>
-
-			<!--
-
-			<div class="project-basics">
-				<div class="leftier">
-				<form class="register" action="/project/new" method="POST">
-				  <p>
-				    <label for="project_name" class="form-register-label" autocomplete="off">Project Name:</label>
-				    <input name="project_name" type="text">
-				  </p>
-				  <p>
-				    <label for="identifier" class="form-register-label" autocomplete="off">Project Identifier:</label>
-				    <input name="identifier" type="text">
-				  </p>
-				  <p>
-				  	<button class="btn btn-lg btn-primary btn-block middel loady" type="submit">Create Project</button>
-				  </p>
-				</form>
-				</div>
-
-				<div class="rightier">
-					<p class="smaller-details-title">Enter elementary details.</p>
-					<div class="smaller-details">
-						<p><strong>Project Name</strong> - This is how we will name your Project.</p>
-						<p><strong>Project Identifier</strong> - An internal Project Identifier for personal purposes.</p>
-					</div>
-				</div>
-			</div>
-			-->
 
 			{{template "dashlinks"}}
 
