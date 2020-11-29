@@ -11,9 +11,9 @@ import (
 // Project struct contains data about specific project
 type (
 	User struct {
-		ID        bson.ObjectId `json:"id" bson:"_id,omitempty`     // user id
+		ID        bson.ObjectId `json:"id" bson:"_id,omitempty"`    // user id
 		Email     string        `json:"email" bson:"email"`         // email
-		Password  string        `json:"password" bson:"password`    // password (SHA256 || Bcrypt)
+		Password  string        `json:"password" bson:"password"`   // password (SHA256 || Bcrypt)
 		Type      string        `json:"type" bson:"usertype"`       // type => admin, org, user
 		CreatedAt time.Time     `json:"createdAt" bson:"createdAt"` // ...
 		UpdatedAt time.Time     `json:"updatedAt" bson:"updatedAt"` // ...
