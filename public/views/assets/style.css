@@ -194,6 +194,17 @@ a {
   font-size: medium;
 }
 
+.other-buttons:hover {
+  background: #000;
+  color: white;
+  font-style: normal;
+  padding: 5px;
+  border: 0px solid;
+  text-decoration: underline;
+  border-radius: 7px;
+  font-size: medium;
+}
+
 button, input[type="button"], input[type="reset"], input[type="submit"] {
 	cursor: pointer;
 	-webkit-appearance: button;

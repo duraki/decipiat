@@ -1,3 +1,8 @@
+## GoLang
+
+Resources:  
+	* https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/03.2.html
+
 ## Templating (Engine)
 
 ### Include variable in loop
