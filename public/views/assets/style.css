@@ -323,8 +323,9 @@ button.middel{
   box-shadow: 0 1px 2px #d1d1d1;
   background: #f2f3f6;
   font-size: 14px;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding-left: 5px;
 }
 #table header {
   background: #f2f3f6;
