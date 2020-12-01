@@ -2,6 +2,8 @@ package web
 
 import (
 	"fmt"
+	"strconv"
+
 	_ "github.com/duraki/decipiat/web/handlers"
 )
 
@@ -9,6 +11,8 @@ type Server struct {
 	Hostname string
 	Port     int
 	Usessl   bool
+	CertPath string
+	KeyPath  string
 }
 
 var isRunning bool = false /* is current serveload up and running */
@@ -40,5 +44,11 @@ func (srv *Server) GetIsRunning() bool {
 func (srv *Server) Run() {
 	router := Init()
 	isRunning = true
-	router.Logger.Fatal(router.Start(":8000")) // todo: fix to use srv*
+	listeningAddress := srv.Hostname + ":" + strconv.Itoa(srv.Port)
+
+	if !srv.Usessl {
+		router.Logger.Fatal(router.Start(listeningAddress))
+	} else {
+		router.Logger.Fatal(router.StartTLS(listeningAddress, srv.CertPath, srv.KeyPath))
+	}
 }

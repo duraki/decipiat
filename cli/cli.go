@@ -9,18 +9,22 @@ import (
 
 // Config struct handles options that will be passed to the web server
 type Config struct {
-	Host    *string
-	Port    *int
-	Ssl     *bool
-	Version *bool
+	Host     *string
+	Port     *int
+	Ssl      *bool
+	CertPath *string
+	KeyPath  *string
+	Version  *bool
 }
 
 var (
 	options = Config{
-		Host:    flag.String("host", "127.0.0.1", "Set hostname"),
-		Port:    flag.Int("port", 8080, "Set port"),
-		Ssl:     flag.Bool("ssl", true, "Append SSL/TLS config"),
-		Version: flag.Bool("version", false, "Display version and author information and exit."),
+		Host:     flag.String("host", "127.0.0.1", "Set hostname"),
+		Port:     flag.Int("port", 8080, "Set port"),
+		Ssl:      flag.Bool("ssl", true, "Append SSL/TLS config"),
+		Version:  flag.Bool("version", false, "Display version and author information and exit."),
+		CertPath: flag.String("certPath", "", "Path to certificate file"),
+		KeyPath:  flag.String("keyPath", "", "Path to key file"),
 	}
 )
 
