@@ -88,6 +88,14 @@ users
   ...
 ```
 
+If you want to use SSL in test environment, generate self signed certificate with command:
+
+`$ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 10000 -nodes`
+
+Also, you need to pass flag `ssl=true` as well as paths to certificate and key file like in an example below:
+
+`$ go run main.go -ssl=true -certPath cert.pem -keyPath key.pem -port 8000`
+
 ---
 
 **Project Structure**
