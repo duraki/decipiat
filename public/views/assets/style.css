@@ -317,6 +317,89 @@ button.middel{
   font-size: 10px;
 }
 
+#table {
+  border: 1px solid #dbdce2;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 1px 2px #d1d1d1;
+}
+#table header {
+  background: #f2f3f6;
+  font-size: 12px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #dbdce2;
+  color: #555;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+#table header:after {
+  content: " ";
+  clear: both;
+}
+#table header span {
+  padding: 10px;
+  display: block;
+  float: left;
+}
+#table header ul {
+  display: block;
+  padding: 0;
+  margin: 0;
+  float: right;
+  border-left: 1px solid #fff;
+}
+#table header ul li {
+  float: left;
+  border-left: 1px solid #dbdce2;
+  border-right: 1px solid #fff;
+}
+#table header ul li:last-child {
+  border-right: 0;
+}
+#table header ul li a {
+  display: block;
+  padding: 10px;
+  color: #535767;
+}
+#table header ul li a:hover {
+  color: #222;
+}
+
+.table {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  width: 100%;
+}
+.table tbody tr td {
+  background: #fff;
+  border-bottom: 1px solid #ebecef;
+  font-size: 14px;
+  padding-left: 10px;
+  color: #64687b;
+  font-family: "Tahoma", Arial;
+}
+.table thead tr:first-child th {
+  border-top: 1px solid red;
+}
+.table thead tr th {
+  background: #f2f3f6;
+  padding: 10px 10px 10px 10px;
+  font-family: Arial;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #767d94;
+  font-weight: bold;
+}
+
+.table > thead:first-child > tr:first-child > th {
+  border-top: 1px solid #fff;
+}
+
+.table > thead > tr > th {
+  border-bottom: 1px solid #dbdce2;
+}
+
 /** c o l o r -- tablelist */
 /**
  * Primary color: #e81c4f
