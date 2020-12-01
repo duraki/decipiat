@@ -1,16 +1,19 @@
 package web
 
 import (
+	"github.com/duraki/decipiat/tfunctions"
 	"github.com/duraki/decipiat/web/handlers"
 
 	// "github.com/duraki/decipiat/web/session"
 	// "github.com/gorilla/sessions"
+	"html/template"
+	_ "html/template"
+	_ "io"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2"
-	_ "html/template"
-	_ "io"
 )
 
 /*
@@ -44,11 +47,17 @@ func SetGlobals() {
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
 func Init() *echo.Echo {
 
+	// Initialize function map
+	funcs := template.FuncMap{
+		"percentage": tfunctions.Percent,
+	}
+
 	/**
 	 * Load templates.
 	 * @type {[type]}
 	 */
-	tmpl, _ := NewTmpl("public/views/", ".html", true)
+	tmpl, _ := NewTmpl("public/views/", ".html", true, funcs)
+	tmpl.Funcs(funcs)
 	err := tmpl.Load()
 	if err != nil {
 		log.Printf("err => %s", err.Error)

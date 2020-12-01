@@ -6,7 +6,6 @@ package web
 
 import (
 	"errors"
-	"github.com/labstack/echo"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -15,6 +14,8 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/labstack/echo"
 )
 
 //
@@ -96,7 +97,7 @@ type Tmpl struct {
 // directory to load templates from. The ext argument is extension of
 // tempaltes. The devel (if true) turns the Tmpl to reload templates
 // every Render if there is a change in the dir.
-func NewTmpl(dir, ext string, devel bool) (tmpl *Tmpl, err error) {
+func NewTmpl(dir, ext string, devel bool, funcs template.FuncMap) (tmpl *Tmpl, err error) {
 
 	// get absolute path
 	if dir, err = filepath.Abs(dir); err != nil {
@@ -107,6 +108,7 @@ func NewTmpl(dir, ext string, devel bool) (tmpl *Tmpl, err error) {
 	tmpl.dir = dir
 	tmpl.ext = ext
 	tmpl.devel = devel
+	tmpl.funcs = funcs
 
 	if err = tmpl.Load(); err != nil {
 		tmpl = nil // drop for GC
@@ -183,17 +185,17 @@ func (t *Tmpl) Load() (err error) {
 			return err
 		}
 
+		// necessary for reloading, this needs to come before parsing
+		if t.funcs != nil {
+			root = root.Funcs(t.funcs)
+		}
+
 		_, err = nt.Parse(string(b))
 		return err
 	}
 
 	if err = filepath.Walk(t.dir, walkFunc); err != nil {
 		return
-	}
-
-	// necessary for reloading
-	if t.funcs != nil {
-		root = root.Funcs(t.funcs)
 	}
 
 	t.Template = root // set or replace

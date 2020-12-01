@@ -27,7 +27,7 @@
 				</thead>
 				<tbody>
 				{{ range (index . "domains").Domains }}
-					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td><td>[ {{ range .Available }}{{ . }} {{end}}]</td><td><center> {{ printf "%.2f" .SuccessRate }}</center></tr>
+					<tr><td>{{ .Name }}</td><td>{{ .Type }}</td><td>[ {{ range .Available }}{{ . }} {{end}}]</td><td><center> {{ percentage .SuccessRate }}</center></tr>
 				{{ end }}
 				</tbody>
 			</table>	
