@@ -10,11 +10,12 @@
 
 			<hr>
 
-			<h2>Results for domain <i>{{ (index . "domain") }}</i> (Total domains permutated: <i>{{ index . "total"}})</i></h2>
-
-			<hr>
-
 			<h2>Domains</h2>
+			<div id="table">
+			   <span>
+			   Target for domain <i>{{ (index . "domain") }}</i>. Total domains permutated: <strong>{{ index . "total" }}</strong>
+			   </span>
+			</div>
 			<table class="table">
 				<thead>
 					<tr>
