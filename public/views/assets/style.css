@@ -290,6 +290,28 @@ button.middel{
   padding-bottom: 10px;
 }
 
+.mini-buttons {
+  background: black;
+  color: white;
+  font-style: normal;
+  padding: 1px;
+  border: 0px solid;
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
+.mini-buttons:hover {
+  background: black;
+  color: white;
+  font-style: normal;
+  padding: 1px;
+  border: 0px solid;
+  text-decoration: underline;
+  border-radius: 3px;
+  font-size: 10px;
+}
+
 /** c o l o r -- tablelist */
 /**
  * Primary color: #e81c4f

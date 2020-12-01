@@ -7,7 +7,7 @@
 
 			<h2>Project View - <code>{{ (index . "project").CpvUuid }}</code></h2>
 
-			<div class="info-project">This project was created on (DATE) by user: (UserID). The internal project ID is (INTERNALID). Follow the links below to edit your phishing campaign.</div>
+			<div class="info-project">This project was created on {{ (index . "project").CreatedAt }} by user <i>{{ (index . "user").Email }}</i>. The internal project ID is {{ (index . "project").InternalId }}. Follow the links below to edit your phishing campaign. Click <a href="/project/edit/:cpvUuid/domain" class="mini-buttons" style="background: black; color: white;">Dashboard</a> to see latest results of the campaign.</div>
 
 			<hr>
 
@@ -90,6 +90,8 @@
 				<!-- postavljanje target loadout (contacts, CSV, file upload) -->
 				<a href="/project/edit/:cpvUuid/domain" class="other-buttons" style="background: #31b0a4; color: white;">General Information</a>
 			</div>
+
+			<p class="project-view-info">Last update on {{ (index . "project").UpdatedAt }}.</p>
 
 			{{template "dashlinks"}}
 
