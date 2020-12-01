@@ -275,7 +275,19 @@ button.middel{
   letter-spacing: 0.005em;
   font-weight: 400;
   width: 90%;
-  color: #a8a4a4;
+  color: #000;
+}
+
+.project-view-info {
+  font-weight: 300;
+  font-style: normal;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #a0a0a0;
+  display: block;
+  width: 80%;
+  line-height: 17px;
+  padding-bottom: 10px;
 }
 
 /** c o l o r -- tablelist */
