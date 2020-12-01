@@ -158,7 +158,7 @@ func isAvailableAndSuccessRate(domain *models.Domain, wg *sync.WaitGroup) {
 	defer wg.Done()
 	ip_records, err := net.LookupIP(domain.Name)
 	if err != nil {
-		domain.Available = []string{"Unavailable"}
+		domain.Available = []string{"Available"}
 		domain.SuccessRate = getRandomSuccessRate()
 	} else {
 		for _, rec := range ip_records {
