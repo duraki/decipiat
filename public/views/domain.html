@@ -12,32 +12,55 @@
 
 			<h2>Domains</h2>
 
-			<p>Type in your domain to search for similar ones</p>
+			<p>Type in your domain to search for similar ones. This domain will be used as a Redirect Domain in your phishing campaign.</p>
 
 			<form class="register" action="/domain" method="POST">
 				<p>
-				<label for="domain" class="form-register-label" autocomplete="off">Domain:</label>
-				<input name="domain" type="text"/><br>
-				<label for="number" class="form-register-label" autocomplete="off">Number of domains:</label>
+				<label for="domain" class="form-register-label">Domain:</label>
+				<input name="domain" type="text"/>
+				</p>
+
+				<p>
+				<label for="number" class="form-register-label">Number of domains:</label>
 				<input name="number" type="text" value="10"/>
 				</p>
-				<input type="checkbox" name="all" value="all"/>
-				<label for="all">all</label><br>
-				<input type="checkbox" name="bitsquatting" value="bitsquatting"/>
-				<label for="bitsquatting">Bitsquatting</label><br>
-				<input type="checkbox" name="vowels" value="vowels"/>
-				<label for="vowels">Vowels</label><br>
-				<input type="checkbox" name="repetition" value="repetition"/>
-				<label for="repetition">Repetition</label><br>
-				<input type="checkbox" name="omission" value="omission"/>
-				<label for="omission">Omission</label><br>
-				<input type="checkbox" name="homograph" value="homograph"/>
-				<label for="homograph">Homograph</label><br>
-				<input type="checkbox" name="hyphenation" value="hyphenation"/>
-				<label for="hyphenation">Hyphenation</label><br>
+
+				<hr style="width: 100%">
+
 				<p>
-				<button class="btn btn-lg btn-primary btn-block middel loady" type="submit">Search</button>
+				<label class="form-checkbox" for="all">Generate All</label>
+				<input type="checkbox" name="all" value="all"/>
 				</p>
+				<p>
+				<label class="form-checkbox" for="bitsquatting">Bitsquatting</label>
+				<input type="checkbox" name="bitsquatting" value="bitsquatting"/>
+			</p>
+			<p>
+				<label class="form-checkbox" for="vowels">Vowels</label>
+				<input type="checkbox" name="vowels" value="vowels"/>
+			</p>
+
+			<p>
+				<label class="form-checkbox" for="repetition">Repetition</label>
+				<input type="checkbox" name="repetition" value="repetition"/>
+			</p>
+
+			<p>
+				<label class="form-checkbox" for="omission">Omission</label>
+				<input type="checkbox" name="omission" value="omission"/>
+			</p>
+
+			<p>
+				<label class="form-checkbox" for="homograph">Homograph</label>
+				<input type="checkbox" name="homograph" value="homograph"/>
+			</p>
+			<p>
+				<label class="form-checkbox" for="hyphenation">Hyphenation</label>
+				<input type="checkbox" name="hyphenation" value="hyphenation"/>
+			</p>
+			<p>
+				<button class="btn btn-lg btn-primary btn-block middel loady" type="submit">Search</button>
+			</p>
 			</form>
 
 			<hr>
