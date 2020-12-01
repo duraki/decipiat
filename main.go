@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "fmt"
+	"os"
 
 	"github.com/duraki/decipiat/cli"
 	"github.com/duraki/decipiat/web"
@@ -13,7 +14,17 @@ func main() {
 	log.Info("Parsing configuration")
 	options := cli.ParseConfiguration()
 
-	server := web.Server{*options.Host, *options.Port, *options.Ssl, *options.CertPath, *options.KeyPath}
+	// Environment?
+	environ := os.Getenv("STAGING")
+	ssl := false
+
+	if environ != "" {
+		ssl = true
+	} else {
+		ssl = false
+	}
+
+	server := web.Server{*options.Host, *options.Port, ssl, *options.CertPath, *options.KeyPath}
 	log.Infof("%s %+v\n", "decipiat running via config ...", server.Self())
 	server.Run()
 }
