@@ -5,13 +5,16 @@ import (
 	"strconv"
 
 	"github.com/duraki/decipiat/core"
+	"github.com/duraki/decipiat/web/session"
 	"github.com/labstack/echo"
 	log "github.com/sirupsen/logrus"
 )
 
 func DomainView(c echo.Context) error {
 	log.Infof("Domain view started")
-	return c.Render(http.StatusOK, "domain", nil)
+	return c.Render(http.StatusOK, "domain", map[string]interface{}{
+		"user": session.GetUser(),
+	})
 }
 
 func SearchDomain(c echo.Context) error {
@@ -39,5 +42,6 @@ func SearchDomain(c echo.Context) error {
 		"total":   total,
 		"domain":  domain,
 		"domains": domains,
+		"user":    session.GetUser(),
 	})
 }

@@ -2,7 +2,7 @@
 	<html>
 		{{template "header"}}	
 		<body>
-			{{template "menu"}}
+			{{template "menu" (index . "user")}}
 			{{template "loggedin" (index . "user").Email}}
 
 			<h2>Project List</h2>
