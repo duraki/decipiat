@@ -6,7 +6,7 @@
 			{{template "loggedin" (index . "user").Email}}
 
 			<h2>Target Elementaries - <code>{{ (index . "project").CpvUuid }}</code></h2>
-			<div class="info-project">You are currently editing <i>Target Elementaries</i> for project with Internal ID {{ (index . "project").InternalId }}. This is where you will setup your Domain Name Service (<strong>DNS</strong>) information. Click <a href="/project/edit/:cpvUuid/apply" class="mini-buttons">Apply</a> to save configuration.</div>
+			<div class="info-project">You are currently editing <i>Target Elementaries</i> for project with <strong>Internal ID {{ (index . "project").InternalId }}</strong>. This is where you will setup your Domain Name Service (<strong>DNS</strong>) information. Click <a href="/project/edit/:cpvUuid/apply" class="mini-buttons">Apply</a> to save configuration.</div>
 
 			<hr>
 
@@ -35,8 +35,8 @@
 					</div>
 				</div>
 
-				<div class="below">
-					<a href="/project/view/:cpvUuid">Go Back</a>
+				<div class="belowier">
+					<a href='/project/view/{{ (index . "project").CpvUuid }}'>Go Back</a>
 				</div>
 			</div>
 			<br>
