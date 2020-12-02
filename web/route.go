@@ -1,12 +1,10 @@
 package web
 
 import (
-	"net/http"
-
 	"github.com/duraki/decipiat/web/handlers"
+	md "github.com/duraki/decipiat/web/middlewares"
 	"github.com/duraki/decipiat/web/tfunctions"
 
-	"github.com/duraki/decipiat/web/session"
 	// "github.com/gorilla/sessions"
 	"html/template"
 	_ "html/template"
@@ -44,18 +42,6 @@ func SetGlobals() {
 
 	// Initialize a global handler
 	handlers.GlobalConfig = handlers.Globals{DB: db}
-}
-
-func IsAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		if session.IsUserAuthenticated(c) {
-			return next(c)
-		} else {
-			return c.Render(http.StatusBadRequest, "message", map[string]interface{}{
-				"msg": "Empty Email or Password",
-			})
-		}
-	}
 }
 
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
@@ -110,7 +96,7 @@ func Init() *echo.Echo {
 }
 
 func ProjectGroup(g *echo.Group) {
-	g.Use(IsAuthenticated)
+	g.Use(md.IsAuthenticated)
 	// Route for Project Management
 	g.GET("/new", handlers.ProjectCreateView)
 	g.POST("/new", handlers.ProjectCreate)
