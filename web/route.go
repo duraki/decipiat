@@ -1,10 +1,12 @@
 package web
 
 import (
+	"net/http"
+
 	"github.com/duraki/decipiat/web/handlers"
 	"github.com/duraki/decipiat/web/tfunctions"
 
-	// "github.com/duraki/decipiat/web/session"
+	"github.com/duraki/decipiat/web/session"
 	// "github.com/gorilla/sessions"
 	"html/template"
 	_ "html/template"
@@ -42,6 +44,18 @@ func SetGlobals() {
 
 	// Initialize a global handler
 	handlers.GlobalConfig = handlers.Globals{DB: db}
+}
+
+func IsAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		if session.IsUserAuthenticated(c) {
+			return next(c)
+		} else {
+			return c.Render(http.StatusBadRequest, "message", map[string]interface{}{
+				"msg": "Empty Email or Password",
+			})
+		}
+	}
 }
 
 /* sample -- https://github.com/xesina/golang-echo-realworld-example-app/tree/master/router */
@@ -86,11 +100,23 @@ func Init() *echo.Echo {
 	e.Renderer = tmpl
 
 	adminGroup := e.Group("/admin") /* create groups */
+	projectGroup := e.Group("/project")
 
 	MainGroup(e)
 	AdminGroup(adminGroup)
+	ProjectGroup(projectGroup)
 
 	return e
+}
+
+func ProjectGroup(g *echo.Group) {
+	g.Use(IsAuthenticated)
+	// Route for Project Management
+	g.GET("/new", handlers.ProjectCreateView)
+	g.POST("/new", handlers.ProjectCreate)
+	g.GET("/list", handlers.ProjectListView)
+	g.GET("/view/:cpvUuid", handlers.ProjectView)
+	g.GET("/edit/:cpvUuid/domain", handlers.TargetElementariesView)
 }
 
 func MainGroup(e *echo.Echo) {
@@ -105,13 +131,6 @@ func MainGroup(e *echo.Echo) {
 	e.POST("/login", handlers.LoginUser)
 	e.GET("/logout", handlers.LogoutUser)
 	e.GET("/me", handlers.UserDashboardView)
-
-	// Route for Project Management
-	e.GET("/project/new", handlers.ProjectCreateView)
-	e.POST("/project/new", handlers.ProjectCreate)
-	e.GET("/project/list", handlers.ProjectListView)
-	e.GET("/project/view/:cpvUuid", handlers.ProjectView)
-	e.GET("/project/edit/:cpvUuid/domain", handlers.TargetElementariesView)
 
 	// Route for domain generation
 	e.GET("/domain", handlers.DomainView)
