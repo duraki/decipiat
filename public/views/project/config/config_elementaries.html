@@ -1,0 +1,54 @@
+{{define "config_elementaries"}}
+	<html>
+		{{template "header"}}	
+		<body>
+			{{template "menu" (index . "user")}}
+			{{template "loggedin" (index . "user").Email}}
+
+			<h2>Target Elementaries - <code>{{ (index . "project").CpvUuid }}</code></h2>
+			<div class="info-project">You are currently editing <i>Target Elementaries</i> for project with Internal ID {{ (index . "project").InternalId }}. This is where you will setup your Domain Name Service (<strong>DNS</strong>) information. Click <a href="/project/edit/:cpvUuid/apply" class="mini-buttons">Apply</a> to save configuration.</div>
+
+			<hr>
+
+			<div class="project-basics">
+				<div class="leftier">
+				<form class="register" action="/project/edit/:cpvUuid/apply" method="POST" autocomplete="off">
+				  <p>
+				    <label for="target" class="form-register-label">Target DNS:</label>
+				    <input name="target" type="text">
+				  </p>
+				  <p>
+				    <label for="redirect" class="form-register-label">Redirect DNS:</label>
+				    <input name="redirect" type="text">
+				  </p>
+				  <p>
+				  	<button class="btn btn-lg btn-primary btn-block middel loady" type="submit">Apply</button>
+				  </p>
+				</form>
+				</div>
+
+				<div class="rightier">
+					<p class="smaller-details-title">Enter Target elementaries.</p>
+					<div class="smaller-details">
+						<p><strong>Target DNS</strong> - This is DNS and path to your target URL. Represents a target domain.</p>
+						<p><strong>Redirect DNS</strong> - An internal DNS used in this phishing campaign.</p>
+					</div>
+				</div>
+
+				<div class="below">
+					<a href="/project/view/:cpvUuid">Go Back</a>
+				</div>
+			</div>
+			<br>
+
+			{{template "dashlinks"}}
+
+			<!-- add landing page grid here -->
+			<!-- add bullets -->
+			<!-- and more importantly -->
+			<!-- add Content!!! --> 
+
+		{{template "footer"}}
+		</body>
+	</html>
+{{end}}

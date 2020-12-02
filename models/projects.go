@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Project struct contains data about specific project
+// Project struct contains metadata about specific project
 type (
 	Project struct {
 		ID         bson.ObjectId `json:"id" bson:"_id,omitempty"` // user id
