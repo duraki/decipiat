@@ -1,8 +1,8 @@
 package web
 
 import (
-	"github.com/duraki/decipiat/tfunctions"
 	"github.com/duraki/decipiat/web/handlers"
+	"github.com/duraki/decipiat/web/tfunctions"
 
 	// "github.com/duraki/decipiat/web/session"
 	// "github.com/gorilla/sessions"
