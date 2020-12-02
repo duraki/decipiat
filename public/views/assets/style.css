@@ -260,6 +260,10 @@ button.middel{
 /*margin-right: 10px;*/
 }
 
+.belowier {
+  clear: left;
+}
+
 .smaller-details-title {
 	color: #000;
 }

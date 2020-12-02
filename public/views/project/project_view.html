@@ -18,7 +18,7 @@
 				<p class="project-view-info">This is where you will setup your target elementaries. Use buttons below to setup your target domain via reverse proxy. Setup a redirect to point to your registered domain.</p>
 
 				<!-- postavljanje real targeta npr. amazon.com -->
-				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Setup Target</a>
+				<a href="/project/edit/{{ (index . "project").CpvUuid }}/domain" class="other-buttons">Setup Target</a>
 
 				<!-- postavljanje redirect domene npr. amaz0n.com, enabliranje SSL certa -->
 				<a href="/project/edit/:cpvUuid/domain" class="other-buttons">Setup Redirect</a>
