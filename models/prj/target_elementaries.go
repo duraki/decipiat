@@ -2,7 +2,7 @@ package models
 
 import (
 	"gopkg.in/mgo.v2/bson"
-	"time"
+	_ "time"
 )
 
 // Project Config struct contains all configuration params per specific project

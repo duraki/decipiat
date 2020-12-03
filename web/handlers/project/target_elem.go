@@ -4,6 +4,7 @@ import (
 	_ "encoding/json"
 	"fmt"
 	"github.com/duraki/decipiat/models"
+	m "github.com/duraki/decipiat/models/prj"
 	h "github.com/duraki/decipiat/web/handlers"
 	"github.com/duraki/decipiat/web/session"
 	_ "github.com/google/uuid"
@@ -46,5 +47,30 @@ func TargetElementariesView(c echo.Context) (err error) {
 	return c.Render(http.StatusOK, "config_elementaries", map[string]interface{}{
 		"project": project,
 		"user":    session.GetUser(),
+	})
+}
+
+func TargetElementaries(c echo.Context) (err error) {
+	cpvUuid := c.Param("cpvUuid")
+	targetUri := c.FormValue("target")
+	redirectUri := c.FormValue("redirect")
+
+	// Bind
+	target := &m.TargetElementaries{
+		ID:          bson.NewObjectId(),
+		CpvUuid:     cpvUuid,
+		TargetURI:   targetUri,
+		RedirectURI: redirectUri,
+	}
+	// target.CreatedAt, target.UpdatedAt = time.Now(), time.Now()
+
+	db := h.GlobalConfig.DB.Clone()
+	defer db.Close()
+	if err = db.DB(h.DatabaseName).C(m.CollectionTargetElementaries).Insert(target); err != nil {
+		return
+	}
+
+	return c.Render(http.StatusCreated, "message", map[string]interface{}{
+		"msg": fmt.Sprintf("Target elementaries updated successfully."),
 	})
 }

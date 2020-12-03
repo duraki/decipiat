@@ -12,7 +12,7 @@
 
 			<div class="project-basics">
 				<div class="leftier">
-				<form class="register" action="/project/edit/:cpvUuid/apply" method="POST" autocomplete="off">
+				<form class="register" action='/project/edit/{{ (index . "project").CpvUuid }}/domain' method="POST" autocomplete="off">
 				  <p>
 				    <label for="target" class="form-register-label">Target DNS:</label>
 				    <input name="target" type="text">
