@@ -17,16 +17,6 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-/*
-type Template struct {
-	templates *template.Template
-}
-
-func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
-}
-*/
-
 func SetGlobals() {
 	db, err := mgo.Dial("localhost")
 	if err != nil {
@@ -122,20 +112,6 @@ func MainGroup(e *echo.Echo) {
 	// Route for domain generation
 	e.GET("/domain", handlers.DomainView)
 	e.POST("/domain", handlers.SearchDomain)
-
-	/*
-		e.GET("/", handler.Home)
-		e.GET("/health-check", handler.HealthCheck)
-
-		e.GET("/user/register", handler.RegisterUserView)
-		e.POST("/user/register", handler.RegisterUser)
-
-		e.GET("/user/login", handler.LoginUserView)
-		e.POST("/user/login", handler.LoginUserView)
-	*/
-
-	//e.GET("/project/create", handlers.ProjectCreateView)
-	//e.POST("/project/create", handlers.ProjectCreate)
 }
 
 func AdminGroup(g *echo.Group) {
