@@ -1,10 +1,11 @@
 package middlewares
 
 import (
-	"net/http"
-
+	"fmt"
 	"github.com/duraki/decipiat/web/session"
 	"github.com/labstack/echo"
+	"html/template"
+	"net/http"
 )
 
 func IsAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
@@ -13,7 +14,7 @@ func IsAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
 			return next(c)
 		} else {
 			return c.Render(http.StatusBadRequest, "message", map[string]interface{}{
-				"msg": "Empty Email or Password",
+				"msg": template.HTML(fmt.Sprintf("Please <a href='/login'>Login</a> first to view this page.")),
 			})
 		}
 	}
