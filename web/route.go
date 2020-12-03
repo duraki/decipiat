@@ -103,7 +103,7 @@ func ProjectGroup(g *echo.Group) {
 	g.POST("/new", handlers.ProjectCreate)
 	g.GET("/list", handlers.ProjectListView)
 	g.GET("/view/:cpvUuid", handlers.ProjectView)
-	g.GET("/edit/:cpvUuid/domain", handlers.TargetElementariesView)
+	g.GET("/edit/:cpvUuid/domain", project.TargetElementariesView)
 }
 
 func MainGroup(e *echo.Echo) {

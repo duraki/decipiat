@@ -1,9 +1,10 @@
-package handlers
+package project
 
 import (
 	_ "encoding/json"
 	"fmt"
 	"github.com/duraki/decipiat/models"
+	h "github.com/duraki/decipiat/web/handlers"
 	"github.com/duraki/decipiat/web/session"
 	_ "github.com/google/uuid"
 	"github.com/labstack/echo"
@@ -21,10 +22,10 @@ func TargetElementariesView(c echo.Context) (err error) {
 	// Bind
 	project := new(models.Project)
 
-	db := GlobalConfig.DB.Clone()
+	db := h.GlobalConfig.DB.Clone()
 	defer db.Close()
 
-	if err = db.DB(DatabaseName).C(models.CollectionProject).
+	if err = db.DB(h.DatabaseName).C(models.CollectionProject).
 		Find(bson.M{"cpvUuid": cpvUuid}).One(project); err != nil {
 		if err == mgo.ErrNotFound {
 			return c.Render(http.StatusUnauthorized, "message", map[string]interface{}{
