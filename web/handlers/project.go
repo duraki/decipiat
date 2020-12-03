@@ -130,6 +130,7 @@ func ProjectView(c echo.Context) (err error) {
 	})
 }
 
+/*
 func TargetElementariesView(c echo.Context) (err error) {
 	cpvUuid := c.Param("cpvUuid")
 
@@ -162,3 +163,4 @@ func TargetElementariesView(c echo.Context) (err error) {
 		"user":    session.GetUser(),
 	})
 }
+*/

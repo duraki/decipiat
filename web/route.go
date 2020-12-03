@@ -2,6 +2,7 @@ package web
 
 import (
 	"github.com/duraki/decipiat/web/handlers"
+	"github.com/duraki/decipiat/web/handlers/project"
 	md "github.com/duraki/decipiat/web/middlewares"
 	"github.com/duraki/decipiat/web/tfunctions"
 
